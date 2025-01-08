@@ -1,0 +1,47 @@
+tags:
+  - Auth
+summary: Confirm Google OAuth
+operationId: confirmAuth
+description: Confirm the Google OAuth code and login/register the user
+security:
+  - bearerAuth: []
+requestBody:
+  required: true
+  content:
+    application/json:
+      schema:
+        type: object
+        required:
+          - code
+        properties:
+          code:
+            type: string
+            description: Authorization code from Google OAuth
+            example: '4/0AX4XfWjT2xO_JG...'
+responses:
+  '200':
+    description: Successfully logged in with Google OAuth
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            status:
+              type: integer
+              example: 200
+            message:
+              type: string
+              example: Login with Google successfully!
+            data:
+              type: object
+              properties:
+                accessToken:
+                  type: string
+                  description: Access token
+                  example: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...'
+  '400':
+    description: Invalid or expired authorization code
+  '500':
+    $ref: '../../components/responses/500.yaml'
+  '401':
+    $ref: '../../components/responses/401.yaml'

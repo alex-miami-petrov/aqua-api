@@ -1,0 +1,54 @@
+tags:
+  - Auth
+summary: Reset password
+operationId: resetPassword
+description: Reset the user's password using the provided token.
+security:
+  - bearerAuth: []
+requestBody:
+  required: true
+  content:
+    application/json:
+      schema:
+        type: object
+        required:
+          - password
+          - token
+        properties:
+          password:
+            type: string
+            description: New password
+            example: 'N3wP@ssw0rd'
+          token:
+            type: string
+            description: Token received in the reset email
+            example: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...'
+responses:
+  '200':
+    description: Password reset successfully
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            status:
+              type: integer
+              example: 200
+            message:
+              type: string
+              example: Password was successfully reset!
+  '401':
+    $ref: '../../components/responses/401.yaml'
+  '404':
+    description: User not found
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            success:
+              type: boolean
+              example: false
+            error:
+              type: string
+              example: 'User not found.'

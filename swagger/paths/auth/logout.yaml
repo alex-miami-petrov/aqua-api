@@ -1,0 +1,27 @@
+tags:
+  - Auth
+summary: Logout user
+operationId: logout
+description: Logout the user and invalidate their session.
+security:
+  - bearerAuth: []
+responses:
+  '204':
+    description: Successfully logged out user. No content is returned.
+  '401':
+    $ref: '../../components/responses/401.yaml'
+  '404':
+    description: User not found.
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            status:
+              type: integer
+              example: 404
+            message:
+              type: string
+              example: User session not found.
+  '500':
+    $ref: '../../components/responses/500.yaml'
