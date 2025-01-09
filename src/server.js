@@ -7,29 +7,30 @@ import { errorHandler } from './middlewares/errorHandler.js';
 import cookieParser from 'cookie-parser';
 import { UPLOAD_DIR } from './constans/index.js';
 import { swaggerDocs } from './middlewares/swaggerDocs.js';
+import { getEnv } from './utils/getEnv.js';
 
-const logger = pino();
-const app = express();
+export const setupServer = () => {
+  const logger = pino();
+  const app = express();
 
-app.use(cors());
-app.use(express.json());
-app.use(cookieParser());
-app.use('/uploads', express.static(UPLOAD_DIR));
-app.use('/api-docs', swaggerDocs());
+  app.use(cors());
+  app.use(express.json());
+  app.use(cookieParser());
+  app.use('/uploads', express.static(UPLOAD_DIR));
+  app.use('/api-docs', swaggerDocs());
 
-app.use((req, res, next) => {
-  logger.info(`${req.method} ${req.url}`);
-  next();
-});
+  app.use((req, res, next) => {
+    logger.info(`${req.method} ${req.url}`);
+    next();
+  });
 
-app.use(router);
+  app.use(router);
 
-app.use(notFoundHandler);
+  app.use(notFoundHandler);
 
-app.use(errorHandler);
+  app.use(errorHandler);
 
-const setupServer = () => {
-  const PORT = process.env.PORT || 3000;
+  const PORT = Number(getEnv('PORT', '3000'));
   app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
   });
