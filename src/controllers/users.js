@@ -1,22 +1,22 @@
-import contactService from '../services/contacts.js';
+import userService from '../services/users.js';
 import createHttpError from 'http-errors';
 import { parsePaginationParams } from '../utils/parsePaginationParams.js';
 import { parseSortParams } from '../utils/parseSortParams.js';
-import { parseContactFilterParams } from '../utils/parseFilterParams.js';
+import { parseUserFilterParams } from '../utils/parseFilterParams.js';
 import { saveFileToUploadDir } from '../utils/saveFileToUploadDir.js';
 import { saveFileToCloudinary } from '../utils/saveFileToCloudinary.js';
 
-export const getContactsCtrl = async (req, res) => {
+export const getUsersController = async (req, res) => {
   const { page, perPage } = parsePaginationParams(req.query);
 
   const { sortBy, sortOrder } = parseSortParams(req.query);
 
   const filter = {
-    ...parseContactFilterParams(req.query),
+    ...parseUserFilterParams(req.query),
     userId: req.user._id,
   };
 
-  const contacts = await contactService.getAllContacts({
+  const users = await userService.getAllUsers({
     page,
     perPage,
     sortBy,
@@ -26,27 +26,27 @@ export const getContactsCtrl = async (req, res) => {
   res.status(200).json({
     status: 200,
     message: 'Successfully found contacts!',
-    data: contacts,
+    data: users,
   });
 };
 
-export const getContactByIdCtrl = async (req, res) => {
-  const { contactId } = req.params;
-  const contact = await contactService.getContactById(contactId, req.user._id);
+export const getUserByIdController = async (req, res) => {
+  const { customerId } = req.params;
+  const user = await userService.getUserById(customerId, req.user._id);
 
-  if (!contact) {
-    throw new createHttpError.NotFound('Contact not found');
+  if (!user) {
+    throw new createHttpError.NotFound('User not found');
   }
 
   res.status(200).json({
     status: 200,
-    message: `Successfully found contact with id ${contactId}!`,
-    data: contact,
+    message: `Successfully found user with id ${customerId}!`,
+    data: user,
   });
 };
 
-export const createContactCtrl = async (req, res) => {
-  const contactData = { ...req.body, userId: req.user._id };
+export const createUserController = async (req, res) => {
+  const userData = { ...req.body, userId: req.user._id };
   const photo = req.file;
 
   let photoUrl;
@@ -59,20 +59,20 @@ export const createContactCtrl = async (req, res) => {
     }
   }
 
-  const newContact = await contactService.addContact({
-    ...contactData,
+  const newUseer = await userService.addUser({
+    ...userData,
     photo: photoUrl,
   });
 
   res.status(201).json({
     status: 201,
-    message: 'Successfully created a contact!',
-    data: newContact,
+    message: 'Successfully created a user!',
+    data: newUseer,
   });
 };
 
-export const patchContactCtrl = async (req, res, next) => {
-  const { contactId } = req.params;
+export const patchUserController = async (req, res, next) => {
+  const { customerId } = req.params;
   const photo = req.file;
 
   let photoUrl;
@@ -95,8 +95,8 @@ export const patchContactCtrl = async (req, res, next) => {
   //   throw new createHttpError.NotFound('Contact not found');
   // }
 
-  const updatedContact = await contactService.updateContact(
-    contactId,
+  const updatedUser = await userService.updateUser(
+    customerId,
     {
       ...req.body,
       photo: photoUrl,
@@ -104,24 +104,24 @@ export const patchContactCtrl = async (req, res, next) => {
     req.user._id,
   );
 
-  if (!updatedContact) {
-    next(createHttpError(404, 'Contact not found'));
+  if (!updatedUser) {
+    next(createHttpError(404, 'User not found'));
     return;
   }
 
   res.status(200).json({
     status: 200,
-    message: `Successfully updated the contact!`,
-    data: updatedContact,
+    message: `Successfully updated the user!`,
+    data: updatedUser,
   });
 };
 
-export const deleteContactCtrl = async (req, res) => {
-  const { contactId } = req.params;
-  const contact = await contactService.deleteContact(contactId, req.user._id);
+export const deleteUserController = async (req, res) => {
+  const { customerId } = req.params;
+  const contact = await userService.deleteContact(customerId, req.user._id);
 
   if (!contact) {
-    throw new createHttpError.NotFound('Contact not found');
+    throw new createHttpError.NotFound('User not found');
   }
 
   res.status(204).send();
