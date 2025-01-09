@@ -19,6 +19,10 @@ export const registerUserSchema = Joi.object({
         'Password must include one uppercase letter, one lowercase letter, one number, and one special character.',
       'string.empty': 'Password is required.',
     }),
+  repeatPassword: Joi.string().required().valid(Joi.ref('password')).messages({
+    'any.only': 'Passwords must match.',
+    'string.empty': 'Repeat password is required.',
+  }),
 });
 
 export const loginUserSchema = Joi.object({
@@ -28,10 +32,6 @@ export const loginUserSchema = Joi.object({
   }),
   password: Joi.string().required().messages({
     'string.empty': 'Password is required.',
-  }),
-  repeatPassword: Joi.string().required().valid(Joi.ref('password')).messages({
-    'any.only': 'Passwords must match.',
-    'string.empty': 'Repeat password is required.',
   }),
 });
 
