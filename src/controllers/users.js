@@ -2,7 +2,7 @@ import userService from '../services/users.js';
 import createHttpError from 'http-errors';
 import { parsePaginationParams } from '../utils/parsePaginationParams.js';
 import { parseSortParams } from '../utils/parseSortParams.js';
-import { parseUserFilterParams } from '../utils/parseFilterParams.js';
+// import { parseUserFilterParams } from '../utils/parseFilterParams.js';
 import { saveFileToUploadDir } from '../utils/saveFileToUploadDir.js';
 import { saveFileToCloudinary } from '../utils/saveFileToCloudinary.js';
 
@@ -11,28 +11,28 @@ export const getUsersController = async (req, res) => {
 
   const { sortBy, sortOrder } = parseSortParams(req.query);
 
-  const filter = {
-    ...parseUserFilterParams(req.query),
-    userId: req.user._id,
-  };
+  // const filter = {
+  //   ...parseUserFilterParams(req.query),
+  //   userId: req.user._id,
+  // };
 
   const users = await userService.getAllUsers({
     page,
     perPage,
     sortBy,
     sortOrder,
-    filter,
+    // filter,
   });
   res.status(200).json({
     status: 200,
-    message: 'Successfully found contacts!',
+    message: 'Successfully found users!',
     data: users,
   });
 };
 
 export const getUserByIdController = async (req, res) => {
-  const { customerId } = req.params;
-  const user = await userService.getUserById(customerId, req.user._id);
+  const { userId } = req.params;
+  const user = await userService.getUserById(userId, req.user._id);
 
   if (!user) {
     throw new createHttpError.NotFound('User not found');
@@ -40,7 +40,7 @@ export const getUserByIdController = async (req, res) => {
 
   res.status(200).json({
     status: 200,
-    message: `Successfully found user with id ${customerId}!`,
+    message: `Successfully found user with id ${userId}!`,
     data: user,
   });
 };
@@ -72,7 +72,7 @@ export const createUserController = async (req, res) => {
 };
 
 export const patchUserController = async (req, res, next) => {
-  const { customerId } = req.params;
+  const { userId } = req.params;
   const photo = req.file;
 
   let photoUrl;
@@ -96,7 +96,7 @@ export const patchUserController = async (req, res, next) => {
   // }
 
   const updatedUser = await userService.updateUser(
-    customerId,
+    userId,
     {
       ...req.body,
       photo: photoUrl,
@@ -117,8 +117,8 @@ export const patchUserController = async (req, res, next) => {
 };
 
 export const deleteUserController = async (req, res) => {
-  const { customerId } = req.params;
-  const contact = await userService.deleteContact(customerId, req.user._id);
+  const { userId } = req.params;
+  const contact = await userService.deleteContact(userId, req.user._id);
 
   if (!contact) {
     throw new createHttpError.NotFound('User not found');

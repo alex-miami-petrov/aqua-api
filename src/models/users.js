@@ -9,7 +9,6 @@ const usersSchema = new mongoose.Schema(
     },
     name: {
       type: String,
-      required: false,
     },
     email: {
       type: String,
@@ -32,13 +31,11 @@ const usersSchema = new mongoose.Schema(
     gender: {
       type: String,
       enum: ['woman', 'man'],
-      required: false,
       default: 'woman',
     },
     activeTime: {
       type: Number,
       default: 0,
-      required: false,
     },
     photo: {
       type: String,

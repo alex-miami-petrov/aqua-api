@@ -11,7 +11,7 @@ import { isValidId } from '../middlewares/isValidId.js';
 import { validateBody } from '../middlewares/validateBody.js';
 import { authenticate } from '../middlewares/authenticate.js';
 import { upload } from '../middlewares/multer.js';
-import { bodyCleaner } from '../middlewares/bodyCleaner.js/index.js';
+import { bodyCleaner } from '../middlewares/bodyCleaner.js';
 import { editUserSchema, userSchema } from '../validation/users.js';
 
 const router = Router();
@@ -19,11 +19,7 @@ router.use(authenticate);
 // const jsonParser = express.json();
 
 router.get('/', ctrlWrapper(getUsersController));
-router.get(
-  '/:userId',
-  getUserByIdController,
-  ctrlWrapper(getUserByIdController),
-);
+router.get('/:userId', ctrlWrapper(getUserByIdController));
 router.post(
   '/',
   upload.single('photo'),

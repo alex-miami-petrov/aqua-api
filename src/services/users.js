@@ -53,8 +53,8 @@ const getAllUsers = async ({
 };
 
 const getUserById = async (customerId, userId) => {
-  const contact = await Users.findOne({ _id: customerId, userId });
-  return contact;
+  const user = await Users.findOne({ _id: customerId, userId });
+  return user;
 };
 
 const addUser = async (userData) => {

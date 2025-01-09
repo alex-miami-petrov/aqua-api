@@ -64,30 +64,30 @@ const parseStringOrNumber = (value, type) => {
   return undefined;
 };
 
-const parseBoolean = (value) => {
-  if (typeof value === 'string') {
-    const lowerValue = value.toLowerCase();
-    if (lowerValue === 'true') return true;
-    if (lowerValue === 'false') return false;
-  }
-  return typeof value === 'boolean' ? value : undefined;
-};
+// const parseBoolean = (value) => {
+//   if (typeof value === 'string') {
+//     const lowerValue = value.toLowerCase();
+//     if (lowerValue === 'true') return true;
+//     if (lowerValue === 'false') return false;
+//   }
+//   return typeof value === 'boolean' ? value : undefined;
+// };
 
-const parseContactType = (type) => {
-  const validTypes = ['work', 'home', 'personal'];
+const parseGender = (type) => {
+  const validTypes = ['woman', 'man'];
   return validTypes.includes(type) ? type : undefined;
 };
 
 export const parseContactFilterParams = (query) => {
-  const { isFavourite, contactType, name } = query;
+  const { gender, name } = query;
 
   const parsedName = parseStringOrNumber(name, 'string');
-  const parsedIsFavourite = parseBoolean(isFavourite);
-  const parsedContactType = parseContactType(contactType);
+  // const parsedIsFavourite = parseBoolean(isFavourite);
+  const parsedGender = parseGender(gender);
 
   return {
     name: parsedName,
-    isFavourite: parsedIsFavourite,
-    contactType: parsedContactType,
+    // isFavourite: parsedIsFavourite,
+    contactType: parsedGender,
   };
 };
