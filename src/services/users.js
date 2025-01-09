@@ -36,7 +36,7 @@ const getAllUsers = async ({
   //   contactsQuery.where('contactType').equals(filter.contactType);
   // }
 
-  const [contactsCount, contacts] = await Promise.all([
+  const [usersCount, users] = await Promise.all([
     Users.find().merge(contactsQuery).countDocuments(),
     contactsQuery
       .skip(skip)
@@ -45,9 +45,9 @@ const getAllUsers = async ({
       .exec(),
   ]);
 
-  const paginationData = calculatePaginationData(contactsCount, perPage, page);
+  const paginationData = calculatePaginationData(usersCount, perPage, page);
   return {
-    data: contacts,
+    data: users,
     ...paginationData,
   };
 };
