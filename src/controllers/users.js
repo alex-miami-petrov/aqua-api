@@ -30,9 +30,10 @@ export const getUsersController = async (req, res) => {
   });
 };
 
-export const getUserByIdController = async (req, res) => {
-  const { customerId } = req.params;
-  const user = await userService.getUserById(customerId, req.user._id);
+export const getCurrenttUserController = async (req, res) => {
+  const userId = req.user._id;
+
+  const user = await userService.getUserById(userId);
 
   if (!user) {
     throw new createHttpError.NotFound('User not found');
@@ -40,7 +41,7 @@ export const getUserByIdController = async (req, res) => {
 
   res.status(200).json({
     status: 200,
-    message: `Successfully found user with id ${customerId}!`,
+    message: 'Successfully retrieved the current user!',
     data: user,
   });
 };
@@ -71,49 +72,47 @@ export const createUserController = async (req, res) => {
   });
 };
 
-export const patchUserController = async (req, res, next) => {
-  const { customerId } = req.params;
+export const updateCurrentUserController = async (req, res, next) => {
+  const userId = req.user._id;
+
   const photo = req.file;
 
   let photoUrl;
-
   if (photo) {
-    if (process.env.ENABLE_CLOUDINARY === 'true') {
-      photoUrl = await saveFileToCloudinary(photo);
-    } else {
-      photoUrl = await saveFileToUploadDir(photo);
+    try {
+      if (process.env.ENABLE_CLOUDINARY === 'true') {
+        photoUrl = await saveFileToCloudinary(photo);
+      } else {
+        photoUrl = await saveFileToUploadDir(photo);
+      }
+    } catch (error) {
+      next(error);
+      return;
     }
   }
 
-  // const updatedContact = await contactService.updateContact(
-  //   contactId,
-  //   req.body,
-  //   req.user._id,
-  // );
+  const updateData = {
+    ...req.body,
+    ...(photoUrl && { photo: photoUrl }),
+  };
 
-  // if (!updatedContact) {
-  //   throw new createHttpError.NotFound('Contact not found');
-  // }
+  try {
+    const updatedUser = await userService.updateUser(userId, updateData);
+    if (!updatedUser) {
+      next(createHttpError(404, 'User not found'));
+      return;
+    }
 
-  const updatedUser = await userService.updateUser(
-    customerId,
-    {
-      ...req.body,
-      photo: photoUrl,
-    },
-    req.user._id,
-  );
-
-  if (!updatedUser) {
-    next(createHttpError(404, 'User not found'));
-    return;
+    console.log('Updated User:', updatedUser);
+    res.status(200).json({
+      status: 200,
+      message: 'Successfully updated the current user!',
+      data: updatedUser,
+    });
+  } catch (error) {
+    console.error('Error updating user:', error);
+    next(error);
   }
-
-  res.status(200).json({
-    status: 200,
-    message: `Successfully updated the user!`,
-    data: updatedUser,
-  });
 };
 
 export const deleteUserController = async (req, res) => {
