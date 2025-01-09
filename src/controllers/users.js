@@ -31,8 +31,8 @@ export const getUsersController = async (req, res) => {
 };
 
 export const getUserByIdController = async (req, res) => {
-  const { userId } = req.params;
-  const user = await userService.getUserById(userId, req.user._id);
+  const { customerId } = req.params;
+  const user = await userService.getUserById(customerId, req.user._id);
 
   if (!user) {
     throw new createHttpError.NotFound('User not found');
@@ -40,7 +40,7 @@ export const getUserByIdController = async (req, res) => {
 
   res.status(200).json({
     status: 200,
-    message: `Successfully found user with id ${userId}!`,
+    message: `Successfully found user with id ${customerId}!`,
     data: user,
   });
 };
@@ -59,7 +59,7 @@ export const createUserController = async (req, res) => {
     }
   }
 
-  const newUseer = await userService.addUser({
+  const newUser = await userService.addUser({
     ...userData,
     photo: photoUrl,
   });
@@ -67,12 +67,12 @@ export const createUserController = async (req, res) => {
   res.status(201).json({
     status: 201,
     message: 'Successfully created a user!',
-    data: newUseer,
+    data: newUser,
   });
 };
 
 export const patchUserController = async (req, res, next) => {
-  const { userId } = req.params;
+  const { customerId } = req.params;
   const photo = req.file;
 
   let photoUrl;
@@ -96,7 +96,7 @@ export const patchUserController = async (req, res, next) => {
   // }
 
   const updatedUser = await userService.updateUser(
-    userId,
+    customerId,
     {
       ...req.body,
       photo: photoUrl,
@@ -117,8 +117,8 @@ export const patchUserController = async (req, res, next) => {
 };
 
 export const deleteUserController = async (req, res) => {
-  const { userId } = req.params;
-  const contact = await userService.deleteContact(userId, req.user._id);
+  const { customerId } = req.params;
+  const contact = await userService.deleteContact(customerId, req.user._id);
 
   if (!contact) {
     throw new createHttpError.NotFound('User not found');

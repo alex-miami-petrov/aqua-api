@@ -18,13 +18,13 @@ const getAllUsers = async ({
   const limit = perPage;
   const skip = page > 0 ? (page - 1) * perPage : 0;
 
-  const contactsQuery = Users.find({ userId: filter.userId });
+  const usersQuery = Users.find({ userId: filter.userId });
 
   if (filter.name) {
-    contactsQuery.where('name').regex(new RegExp(filter.name, 'i'));
+    usersQuery.where('name').regex(new RegExp(filter.name, 'i'));
   }
   if (filter.gender) {
-    contactsQuery.where('gender').regex(new RegExp(filter.phoneNumber));
+    usersQuery.where('gender').regex(new RegExp(filter.gender));
   }
   // if (filter.email) {
   //   contactsQuery.where('email').regex(new RegExp(filter.email, 'i'));
@@ -37,8 +37,8 @@ const getAllUsers = async ({
   // }
 
   const [usersCount, users] = await Promise.all([
-    Users.find().merge(contactsQuery).countDocuments(),
-    contactsQuery
+    Users.find().merge(usersQuery).countDocuments(),
+    usersQuery
       .skip(skip)
       .limit(limit)
       .sort({ [sortBy]: sortOrder })
