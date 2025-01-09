@@ -14,7 +14,7 @@ export const userSchema = Joi.object({
 
 export const editUserSchema = Joi.object({
   name: stringField.optional(),
-  email: stringField.optional,
+
   gender: stringField.valid('woman', 'man').optional(),
   weight: Joi.number().optional(),
   waterNorma: Joi.number().optional(),

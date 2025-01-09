@@ -1,10 +1,10 @@
 import { Router } from 'express';
 import {
   getUsersController,
-  getUserByIdController,
   createUserController,
-  patchUserController,
   deleteUserController,
+  getCurrenttUserController,
+  updateCurrentUserController,
 } from '../controllers/users.js';
 import { ctrlWrapper } from '../utils/ctrlWrapper.js';
 import { isValidId } from '../middlewares/isValidId.js';
@@ -19,7 +19,8 @@ router.use(authenticate);
 // const jsonParser = express.json();
 
 router.get('/', ctrlWrapper(getUsersController));
-router.get('/:customerId', ctrlWrapper(getUserByIdController));
+router.get('/current', ctrlWrapper(getCurrenttUserController));
+
 router.post(
   '/',
   upload.single('photo'),
@@ -33,13 +34,13 @@ router.post(
   ctrlWrapper(createUserController),
 );
 router.patch(
-  '/:customerId',
-  isValidId,
+  '/current',
   upload.single('photo'),
   bodyCleaner,
   validateBody(editUserSchema),
-  ctrlWrapper(patchUserController),
+  ctrlWrapper(updateCurrentUserController),
 );
+
 router.delete('/:customerId', isValidId, ctrlWrapper(deleteUserController));
 
 export default router;
