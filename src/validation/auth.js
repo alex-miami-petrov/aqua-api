@@ -40,10 +40,10 @@ export const loginUserSchema = Joi.object({
   password: Joi.string().required().messages({
     'string.empty': 'Password is required.',
   }),
-  // repeatPassword: Joi.string().required().valid(Joi.ref('password')).messages({
-  //   'any.only': 'Passwords must match.',
-  //   'string.empty': 'Repeat password is required.',
-  // }),
+  repeatPassword: Joi.string().required().valid(Joi.ref('password')).messages({
+    'any.only': 'Passwords must match.',
+    'string.empty': 'Repeat password is required.',
+  }),
 });
 
 export const requestResetEmailSchema = Joi.object({
