@@ -1,20 +1,3 @@
-// import cloudinary from 'cloudinary';
-// import { CLOUDINARY } from '../constans/index.js';
-// import fs from 'node:fs/promises';
-
-// cloudinary.v2.config({
-//   secure: true,
-//   cloud_name: CLOUDINARY.CLOUD_NAME,
-//   api_key: CLOUDINARY.API_KEY,
-//   api_secret: CLOUDINARY.API_SECRET,
-// });
-
-// export const saveFileToCloudinary = async (file) => {
-//   const response = await cloudinary.v2.uploader.upload(file.path);
-//   await fs.unlink(file.path);
-//   return response.secure_url;
-// };
-
 import cloudinary from 'cloudinary';
 import { CLOUDINARY } from '../constans/index.js';
 import fs from 'node:fs/promises';
@@ -40,14 +23,34 @@ const deleteFile = async (filePath) => {
   }
 };
 
-export const saveFileToCloudinary = async (file, folder = 'uploads') => {
+export const saveFileToCloudinary = async (
+  file,
+  folder = 'uploads',
+  options = {},
+) => {
   if (!file || !file.path) {
     throw new Error('File is not provided or invalid');
   }
 
   try {
-    const response = await cloudinary.v2.uploader.upload(file.path, { folder });
-    console.log('Cloudinary upload response:', response); // Для дебагінгу
+    const uploadOptions = {
+      folder,
+      overwrite: true,
+      transformation: [
+        {
+          width: 200,
+          height: 200,
+          crop: 'fill',
+        },
+      ],
+      ...options,
+    };
+
+    const response = await cloudinary.v2.uploader.upload(
+      file.path,
+      uploadOptions,
+    );
+    console.log('Cloudinary upload response:', response);
     await deleteFile(file.path);
     return response.secure_url;
   } catch (error) {
