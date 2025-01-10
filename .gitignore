@@ -5,7 +5,7 @@
 .vscode
 .DS_Store
 .idea
-
+.cheatsheet
 /src/temp/*
 !/src/temp/.gitkeep
 /src/upload/*

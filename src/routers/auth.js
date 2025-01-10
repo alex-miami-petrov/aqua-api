@@ -18,20 +18,22 @@ import {
   getAuthUrlCtrl,
   confirmAuthCtrl,
 } from '../controllers/auth.js';
+import { authenticate } from '../middlewares/authenticate.js';
 
 const router = Router();
 
 router.post(
-  '/register',
+  '/signup',
   validateBody(registerUserSchema),
   ctrlWrapper(registerUserCtrl),
 );
 
 router.post(
-  '/login',
+  '/signin',
   validateBody(loginUserSchema),
   ctrlWrapper(loginUserCtrl),
 );
+router.use(authenticate);
 
 router.post('/refresh', ctrlWrapper(refreshSessionCtrl));
 
