@@ -3,10 +3,6 @@ import dotenv from 'dotenv';
 
 dotenv.config();
 
-const DB_URI = process.env.MONGODB_URI;
-
-console.log('Loaded MongoDB URI:', process.env.MONGODB_URI);
-
 const initMongoConnection = async () => {
   const DB_URI = process.env.MONGODB_URI;
   try {
