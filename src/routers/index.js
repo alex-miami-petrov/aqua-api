@@ -7,6 +7,7 @@ const router = Router();
 
 router.use('/users', usersRouter);
 router.use('/auth', authRouter);
-router.use('/water', waterRouter);
+// router.use('/water', waterRouter);
+router.use('/qqq', (req, res) => res.json({ message: '1' }));
 
 export default router;
