@@ -11,7 +11,7 @@ export async function createWaterRecordController(req, res) {
   const { volume, date } = req.body;
   const userId = req.user.id;
   const record = await getWaterRecord(userId, date);
-  console.log('record', record);
+
   if (record) {
     throw new createHttpError(
       409,
@@ -24,7 +24,7 @@ export async function createWaterRecordController(req, res) {
     userId,
   });
 
-  console.log(result);
+  
   res.status(201).send({
     status: 201,
     message: 'Successfully created a waterRecord!',
