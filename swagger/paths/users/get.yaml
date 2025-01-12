@@ -1,34 +1,11 @@
 tags:
-  - Contacts
-summary: Get list of contacts
-operationId: getContacts
-description: Retrieve a filtered, paginated, and sorted list of contacts.
+  - Users
+summary: Get list of Users
+operationId: getAllUsers
+description: Retrieve a paginated, and sorted list of users.
 security:
   - bearerAuth: []
 parameters:
-  - in: query
-    name: name
-    schema:
-      type: string
-    description: Filter by contact name
-    example: 'John'
-  - in: query
-    name: isFavourite
-    schema:
-      type: boolean
-    description: Filter by whether the contact is marked as favourite.
-    example: true
-  - in: query
-    name: contactType
-    schema:
-      type: string
-      enum: [work, home, personal]
-    description: Filter by contact type.
-    example: 'work'
-  - in: query
-    name: page
-    schema:
-      type: integer
     description: Page number for pagination.
     example: 1
   - in: query
@@ -41,19 +18,19 @@ parameters:
     name: sortBy
     schema:
       type: string
-      enum: [name, email, isFavourite]
-    description: Field by which to sort the contacts.
+      enum: [name, email, gender]
+    description: Field by which to sort the users.
     example: 'name'
   - in: query
     name: sortOrder
     schema:
       type: string
       enum: [ASC, DESC]
-    description: Order to sort the contacts (ascending or descending).
+    description: Order to sort the users (ascending or descending).
     example: 'ASC'
 responses:
   '200':
-    description: Successfully retrieved filtered, paginated, and sorted contacts
+    description: Successfully retrieved paginated, and sorted users
     content:
       application/json:
         schema:
@@ -64,11 +41,11 @@ responses:
               example: 200
             message:
               type: string
-              example: Successfully retrieved contacts.
+              example: Successfully retrieved users.
             data:
               type: array
               items:
-                $ref: '../../components/schemas/contact.yaml'
+                $ref: '../../components/schemas/users.yaml'
             pagination:
               type: object
               properties:
