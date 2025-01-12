@@ -64,28 +64,26 @@ export async function patchWaterRecordController(req, res) {
   });
 }
 
-export const getDayWaterController= async (req, res, next) => {
-  try {
-    const userId = req.user._id;
-    const { date } = req.params;
+// export const getDayWaterController= async (req, res, next) => {
 
-    const user = await User.findById(userId);
+//     const userId = req.user._id;
+//     const { date } = req.params;
 
-    if (!user) {
-      return next(HttpError(404, 'User not found'));
-    }
-  }
+//     const user = await User.findById(userId);
 
+//     if (!user) {
+//       return next(HttpError(404, 'User not found'));
+//     }
 
-};
+// };
 
-export const getMonthWaterController = async (req, res, next) => {
-  try {
-    const userId = req.user._id;
-    const user = await User.findById(userId);
+// export const getMonthWaterController = async (req, res, next) => {
+//   try {
+//     const userId = req.user._id;
+//     const user = await User.findById(userId);
 
-    if (!user) {
-      return next(HttpError(404, 'User not found'));
-    }
+//     if (!user) {
+//       return next(HttpError(404, 'User not found'));
+//     }
 
-};
+// };
