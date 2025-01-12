@@ -1,0 +1,52 @@
+tags:
+  - Users
+summary: Get current user
+operationId: getCurrentUser
+description: "Get current user"
+security:
+  -bearerAuth: []
+parameters:
+  -in: path
+   name: userId
+   required: true
+   schema:
+    type: string
+    example: '65ca67e7ae7f10c88b598384'
+responses:
+  "200":
+    description: Successfully found user
+    content:
+      application/json:
+        schema:
+          type: object
+          required:
+            - status
+            - message
+            - data
+          properties:
+            status:
+              type: integer4
+              example: 200
+            message:
+              type: string
+              example: Successfully found user
+            data:
+              type: object
+              $ref: '../../../components/schemas/users.yaml'
+ '401':
+   $ref: '../../../components/responses/401.yaml'
+ '404':
+    description: User not found
+    content:
+      application/json:
+        schema:
+          type: object
+        properties:
+          success:
+            type: boolean
+            example: false
+          error:
+            type: string
+            example: 'User not found'
+  '500':
+    $ref: '../../../components/responses/500.yaml'

@@ -1,0 +1,49 @@
+type: object
+required:
+  - userId
+  - email
+  - password
+properties:
+  userId:
+    type: string
+    description: 'Unique identifier for the user.'
+    example: '63c0a6f8f1d3e55678a23f1d'
+  name:
+    type: string
+    description: 'Name of the user.'
+    example: 'John Doe'
+  email:
+    type: string
+    description: 'Unique email address of the user.'
+    example: 'johndoe@example.com'
+  waterNorma:
+    type: number
+    description: 'Daily water consumption norm in milliliters.'
+    default: 1500
+    maximum: 15000
+    example: 2000
+  weight:
+    type: number
+    description: 'Weight of the user in kilograms.'
+    default: 0
+    example: 75
+  password:
+    type: string
+    description: 'Hashed password of the user.'
+    example: 'hashedpassword123'
+  gender:
+    type: string
+    description: 'Gender of the user.'
+    enum: ['woman', 'man']
+    default: 'woman'
+    example: 'man'
+  activeTime:
+    type: number
+    description: 'Total active time of the user in houres.'
+    default: 0
+    example: 2
+  photo:
+    type: string
+    description: "URL to the user's profile photo."
+    default: 'https://res.cloudinary.com/dwshxlkre/image/upload/v1736365275/avatar_yajq6q.png'
+    example: 'https://example.com/photo.jpg'
