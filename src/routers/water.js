@@ -4,8 +4,8 @@ import {
   createWaterRecordController,
   deleteWaterRecordController,
   patchWaterRecordController,
-  getDayWaterController,
-  getMonthWaterController,
+  // getDayWaterController,
+  // getMonthWaterController,
 } from '../controllers/water.js';
 import {
   waterSchema,
@@ -15,7 +15,8 @@ import {
 } from '../validation/water.js';
 
 import { ctrlWrapper } from '../utils/ctrlWrapper.js';
-import { isValidDay, isValidId, isValidMonth } from '../middlewares/isValid.js';
+// import { isValidDay, isValidId, isValidMonth } from '../middlewares/isValid.js';
+import { isValidId } from '../middlewares/isValid.js';
 import { validateBody } from '../middlewares/validateBody.js';
 
 import { authenticate } from '../middlewares/authenticate.js';
@@ -39,7 +40,7 @@ router.patch(
   ctrlWrapper(patchWaterRecordController),
 );
 
-router.get('/day/:date', isValidDay, getDayWaterController);
-router.get('/month/:month', isValidMonth, getMonthWaterController);
+// router.get('/day/:date', isValidDay, getDayWaterController);
+// router.get('/month/:month', isValidMonth, getMonthWaterController);
 
 export default router;
