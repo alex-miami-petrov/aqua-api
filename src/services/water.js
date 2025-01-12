@@ -4,15 +4,20 @@ export async function createWaterRecord(record) {
   return WaterCollection.create(record);
 }
 
-export async function deleteWaterRecord(id, userId) {
-  return WaterCollection.findOneAndDelete({
-    _id: id,
-    userId,
+export async function getWaterRecord(id, date) {
+  return WaterCollection.findOne({
+    userId: id,
+    date: date,
   });
 }
 
-export async function updateWaterRecord(id, userId, record) {
-  return await WaterCollection.findOneAndUpdate({ _id: id, userId }, record, {
-    new: true,
+export async function deleteWaterRecord(id, date) {
+  return WaterCollection.findOneAndDelete({
+    userId: id,
+    date: date,
   });
+}
+
+export async function updateWaterRecord(id, updatedData) {
+  return await WaterCollection.findOneAndUpdate(id, updatedData, { new: true });
 }
