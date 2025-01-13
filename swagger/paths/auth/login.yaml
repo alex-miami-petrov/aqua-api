@@ -1,7 +1,7 @@
 tags:
   - Auth
 summary: Login user
-operationId: login
+operationId: signin
 description: Authenticate a user and return an access token
 security:
   - bearerAuth: []

@@ -457,7 +457,7 @@
           "Auth"
         ],
         "summary": "Login user",
-        "operationId": "login",
+        "operationId": "signin",
         "description": "Authenticate a user and return an access token",
         "security": [
           {
@@ -590,7 +590,7 @@
           "Auth"
         ],
         "summary": "Logout user",
-        "operationId": "logout",
+        "operationId": "signup",
         "description": "Logout the user and invalidate their session.",
         "security": [
           {

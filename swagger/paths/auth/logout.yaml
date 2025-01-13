@@ -1,7 +1,7 @@
 tags:
   - Auth
 summary: Logout user
-operationId: logout
+operationId: signup
 description: Logout the user and invalidate their session.
 security:
   - bearerAuth: []
