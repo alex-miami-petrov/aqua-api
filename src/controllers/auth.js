@@ -118,28 +118,28 @@ export const getAuthUrlCtrl = async (req, res) => {
   });
 };
 
-export const confirmAuthCtrl = async (req, res) => {
-  const { code } = req.body;
-  const ticket = await validateCode(code);
-  const session = await loginOrRegister(ticket.payload);
+// export const confirmAuthCtrl = async (req, res) => {
+//   const { code } = req.body;
+//   const ticket = await validateCode(code);
+//   const session = await loginOrRegister(ticket.payload);
 
-  res.cookie('refreshToken', session.refreshToken, {
-    httpOnly: true,
-    secure: process.env.NODE_ENV === 'production',
-    sameSite: 'strict',
-    expires: new Date(Date.now() + ONE_DAY),
-  });
+//   res.cookie('refreshToken', session.refreshToken, {
+//     httpOnly: true,
+//     secure: process.env.NODE_ENV === 'production',
+//     sameSite: 'strict',
+//     expires: new Date(Date.now() + ONE_DAY),
+//   });
 
-  res.cookie('sessionId', session._id, {
-    httpOnly: true,
-    expires: new Date(Date.now() + ONE_DAY),
-  });
+//   res.cookie('sessionId', session._id, {
+//     httpOnly: true,
+//     expires: new Date(Date.now() + ONE_DAY),
+//   });
 
-  res.status(200).json({
-    status: 200,
-    message: 'Login with Google successfully!',
-    data: {
-      accessToken: session.accessToken,
-    },
-  });
-};
+//   res.status(200).json({
+//     status: 200,
+//     message: 'Login with Google successfully!',
+//     data: {
+//       accessToken: session.accessToken,
+//     },
+//   });
+// };

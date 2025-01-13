@@ -146,36 +146,36 @@ export const resetPassword = async (payload) => {
   await Session.deleteMany({ userId: user._id });
 };
 
-export const loginOrRegister = async (payload) => {
-  let user = await User.findOne({ email: payload.email });
+// export const loginOrRegister = async (payload) => {
+//   let user = await User.findOne({ email: payload.email });
 
-  let createdUser;
+//   let createdUser;
 
-  if (!user) {
-    const password = await bcrypt.hash(randomBytes(30).toString('base64'), 10);
+//   if (!user) {
+//     const password = await bcrypt.hash(randomBytes(30).toString('base64'), 10);
 
-    createdUser = await User.create({
-      name: payload.name,
-      email: payload.email,
-      password,
-    });
-  } else {
-    createdUser = user;
-  }
+//     createdUser = await User.create({
+//       name: payload.name,
+//       email: payload.email,
+//       password,
+//     });
+//   } else {
+//     createdUser = user;
+//   }
 
-  let existingSession = await Session.findOne({ userId: createdUser._id });
+//   let existingSession = await Session.findOne({ userId: createdUser._id });
 
-  if (existingSession) {
-    await Session.deleteOne({ _id: existingSession._id });
-  }
+//   if (existingSession) {
+//     await Session.deleteOne({ _id: existingSession._id });
+//   }
 
-  const session = await Session.create({
-    userId: createdUser._id,
-    accessToken: randomBytes(30).toString('base64'),
-    refreshToken: randomBytes(30).toString('base64'),
-    accessTokenValidUntil: new Date(Date.now() + FIFTEEN_MINUTES),
-    refreshTokenValidUntil: new Date(Date.now() + ONE_DAY),
-  });
+//   const session = await Session.create({
+//     userId: createdUser._id,
+//     accessToken: randomBytes(30).toString('base64'),
+//     refreshToken: randomBytes(30).toString('base64'),
+//     accessTokenValidUntil: new Date(Date.now() + FIFTEEN_MINUTES),
+//     refreshTokenValidUntil: new Date(Date.now() + ONE_DAY),
+//   });
 
-  return session;
-};
+//   return session;
+// };
