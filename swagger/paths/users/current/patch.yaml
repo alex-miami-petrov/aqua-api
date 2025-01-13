@@ -1,47 +1,42 @@
 tags:
   - Users
-summary: Update a current user
-description: Update specific fields of a current user
+summary: Update the current user
+description: Update specific fields of the current user
 operationId: updateUser
 security:
   - bearerAuth: []
-parameters:
-  - name: userId
-    in: path
-    required: true
-    description: Current user to update
-    schema:
-      type: string
-  requestBody:
-    description: Fields to update in the user
-    required: true
-    content:
-      multipart/form-data:
-        schema:
-          type: object
-          properties:
-            name:
-              description: "User`s name"
-              type: string
-            weight:
-              description: "Weight of user in kg"
-              type: number
-              example: 75
-            waterNorma:
-              description: "Norma of water in day. In milliliters"
-              type: number
-              example: 1500
-            gender:
-              description: "Gender of user"
-              type: string
-              enum: ["woman", "man"]
-            photo:
-              description: "User`s photo"
-              type: string
-              format: binary
+requestBody:
+  description: Fields to update in the user
+  required: true
+  content:
+    multipart/form-data:
+      schema:
+        type: object
+        properties:
+          name:
+            description: User's name
+            type: string
+          weight:
+            description: Weight of the user in kilograms
+            type: number
+            example: 75
+          waterNorma:
+            description: Daily water intake in milliliters
+            type: number
+            example: 1500
+          gender:
+            description: Gender of the user
+            type: string
+            enum:
+              - woman
+              - man
+          photo:
+            description: User's photo
+            type: string
+            format: binary
 responses:
   '200':
-    description: "Contact updated successfully"
+    description: User updated successfully
     content:
       application/json:
         schema:
@@ -56,12 +51,14 @@ responses:
               example: 200
             message:
               type: string
-              example: Successfully updated User
+              example: Successfully updated user
             data:
               type: object
-              $ref: "../../../components/schemas/users.yaml"
+              $ref: '../../../components/schemas/users.yaml'
   '400':
     $ref: '../../../components/responses/400.yaml'
+  '401':
+    $ref: '../../../components/responses/401.yaml'
   '404':
     description: User not found
     content:
@@ -74,9 +71,6 @@ responses:
               example: false
             error:
               type: string
-              example: 'User not found'  
+              example: User not found
   '500':
     $ref: '../../../components/responses/500.yaml'
-  '401':
-    $ref: '../../../components/responses/401.yaml'       
-            
