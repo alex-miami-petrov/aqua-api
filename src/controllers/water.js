@@ -3,6 +3,9 @@ import createHttpError from 'http-errors';
 import {
   createWaterRecord,
   deleteWaterRecord,
+  getUser,
+  getWaterDay,
+  getWaterMonth,
   getWaterRecord,
   updateWaterRecord,
 } from '../services/water.js';
@@ -10,6 +13,7 @@ import {
 export async function createWaterRecordController(req, res) {
   const { volume, date } = req.body;
   const userId = req.user.id;
+
   const record = await getWaterRecord(userId, date);
 
   if (record) {
@@ -24,7 +28,6 @@ export async function createWaterRecordController(req, res) {
     userId,
   });
 
-  
   res.status(201).send({
     status: 201,
     message: 'Successfully created a waterRecord!',
@@ -34,11 +37,9 @@ export async function createWaterRecordController(req, res) {
 
 export async function deleteWaterRecordController(req, res) {
   const { id } = req.params;
-  const { date } = req.body;
-  console.log(id);
-  console.log(date);
+  const userId = req.user._id;
 
-  const record = await deleteWaterRecord(id, date);
+  const record = await deleteWaterRecord(id, userId);
   if (!record) {
     throw new createHttpError.NotFound('water user record not found');
   }
@@ -47,13 +48,9 @@ export async function deleteWaterRecordController(req, res) {
 
 export async function patchWaterRecordController(req, res) {
   const { id } = req.params;
-  const { date, volume } = req.body;
-  const updatedData = {
-    data: date,
-    volume: volume,
-  };
+  const userId = req.user._id;
 
-  const result = await updateWaterRecord(id, updatedData);
+  const result = await updateWaterRecord(id, userId, { ...req.body });
   if (!result) {
     throw new createHttpError.NotFound('water user record not found');
   }
@@ -64,26 +61,77 @@ export async function patchWaterRecordController(req, res) {
   });
 }
 
-// export const getDayWaterController= async (req, res, next) => {
+export async function getDayWaterController(req, res) {
+  const userId = req.user._id;
+  const { date } = req.params;
 
-//     const userId = req.user._id;
-//     const { date } = req.params;
+  const user = await getUser(userId);
+  if (!user) {
+    throw new createHttpError(404, 'User not found');
+  }
+  const normaWater = user.waterNorma;
 
-//     const user = await User.findById(userId);
+  const records = await getWaterDay(userId, date);
 
-//     if (!user) {
-//       return next(HttpError(404, 'User not found'));
-//     }
+  const totalWaterDay = records
+    .reduce((acc, record) => acc + record.volume, 0)
+    .toFixed(2);
 
-// };
+  const percent = Math.floor((totalWaterDay / normaWater) * 100);
 
-// export const getMonthWaterController = async (req, res, next) => {
-//   try {
-//     const userId = req.user._id;
-//     const user = await User.findById(userId);
+  res.json({
+    totalWaterDay,
+    percent: percent >= 100 ? 100 : percent,
+    records,
+  });
+}
 
-//     if (!user) {
-//       return next(HttpError(404, 'User not found'));
-//     }
+export async function getMonthWaterController(req, res) {
+  const { month } = req.params;
+  const userId = req.user._id;
+  const user = await getUser(userId);
+  if (!user) {
+    throw new createHttpError(404, 'User not found');
+  }
+  const normaWater = user.waterNorma;
 
-// };
+  const waterRecords = await getWaterMonth(userId, month);
+
+  const waterByDay = waterRecords.reduce((acc, record) => {
+    const day = record.date.slice(0, 10);
+    if (!acc[day]) {
+      acc[day] = 0;
+    }
+    acc[day] += record.volume;
+    return acc;
+  }, {});
+
+  const arrayWater = [];
+
+  for (let i = 1; i <= 31; i++) {
+    let day;
+    if (i < 10) {
+      day = '0' + String(i);
+    } else {
+      day = String(i);
+    }
+    day = month + '-' + day;
+    const totalWaterDay = waterByDay[day] || 0;
+    const percent = ((totalWaterDay / normaWater) * 100).toFixed(2);
+    if (totalWaterDay > 0) {
+      arrayWater.push({
+        day: day,
+        totalVolume: totalWaterDay.toFixed(2),
+        percent: percent,
+      });
+    }
+  }
+  const totalWaterMonth = waterRecords.reduce(
+    (sum, record) => sum + record.volume,
+    0,
+  );
+  res.status(200).send({
+    totalWaterMonth: totalWaterMonth.toFixed(2),
+    arrayWater: arrayWater,
+  });
+}
