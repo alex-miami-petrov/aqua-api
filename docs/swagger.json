@@ -3,7 +3,7 @@
   "info": {
     "version": "1.0.0",
     "title": "Aqua API",
-    "description": "API documentation for the Contacts app, including user and authentication operations.",
+    "description": "API documentation for the Aqua track, including users and authentication operations.",
     "license": {
       "name": "Apache 2.0",
       "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
