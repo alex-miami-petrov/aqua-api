@@ -6,6 +6,10 @@ description: Retrieve a paginated, and sorted list of users.
 security:
   - bearerAuth: []
 parameters:
+  - in: query
+    name: page
+    schema:
+      type: integer
     description: Page number for pagination.
     example: 1
   - in: query

@@ -57,39 +57,37 @@
 openapi: 3.1.0
 info:
   version: 1.0.0
-  title: Contacts app
+  title: Aqua API
+  description: API documentation for the Contacts app, including user and authentication operations.
   license:
     name: Apache 2.0
     url: http://www.apache.org/licenses/LICENSE-2.0.html
-  description: This is a documentation of Contacts app
 
 tags:
-  - name: Contacts
-    description: Operations about contacts.
+  - name: Users
+    description: Operations for managing users.
   - name: Auth
-    description: Auth operations.
+    description: Operations related to user authentication and authorization.
 
 servers:
-  - url: http://localhost:8080
-  - url: https://nodejs-hw-mongodb-4vnp.onrender.com
+  - url: http://127.0.0.1:8080
+    description: Local development server
+  - url: https://aqua-api-fkf8.onrender.com
+    description: Production server
 
 paths:
-  /contacts:
+  /users/all:
     get:
-      $ref: ../swagger/paths/contacts/get.yaml
-    post:
-      $ref: ../swagger/paths/contacts/post.yaml
-  /contacts/{contactId}:
-    delete:
-      $ref: ../swagger/paths/contacts/{id}/delete.yaml
+      $ref: '../swagger/paths/users/get.yaml'
+  /users/current:
     patch:
-      $ref: ../swagger/paths/contacts/{id}/patch.yaml
+      $ref: '../swagger/paths/users/current/patch.yaml'
     get:
-      $ref: ../swagger/paths/contacts/{id}/get.yaml
-  /auth/register:
+      $ref: '../swagger/paths/users/current/get.yaml'
+  /auth/signup:
     post:
       $ref: '../swagger/paths/auth/register.yaml'
-  /auth/login:
+  /auth/signin:
     post:
       $ref: '../swagger/paths/auth/login.yaml'
   /auth/refresh:
@@ -116,3 +114,4 @@ components:
     bearerAuth:
       type: http
       scheme: bearer
+      description: Use the Bearer token for authorization.

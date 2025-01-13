@@ -15,7 +15,7 @@ import { editUserSchema, userSchema } from '../validation/users.js';
 const router = Router();
 router.use(authenticate);
 
-router.get('/', ctrlWrapper(getUsersController));
+router.get('/all', ctrlWrapper(getUsersController));
 router.get('/current', ctrlWrapper(getCurrenttUserController));
 
 router.post(

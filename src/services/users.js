@@ -52,8 +52,8 @@ const getAllUsers = async ({
   };
 };
 
-const getUserById = async (customerId, userId) => {
-  const user = await Users.findOne({ _id: customerId, userId });
+const getUserById = async (userId) => {
+  const user = await Users.findOne({ _id: userId });
   return user;
 };
 
@@ -62,21 +62,17 @@ const addUser = async (userData) => {
   return newUser;
 };
 
-const updateUser = async (customerId, payload, userId) => {
-  const updatedUser = await Users.findOneAndUpdate(
-    { _id: customerId, userId },
-    payload,
-    {
-      new: true,
-      runValidators: true,
-    },
-  );
+const updateUser = async (userId, payload) => {
+  const updatedUser = await Users.findOneAndUpdate({ _id: userId }, payload, {
+    new: true,
+    runValidators: true,
+  });
 
   return updatedUser;
 };
 
-const deleteUser = async (customerId, userId) => {
-  const user = await Users.findOneAndDelete({ _id: customerId, userId });
+const deleteUser = async (userId) => {
+  const user = await Users.findOneAndDelete({ _id: userId });
   return user;
 };
 
