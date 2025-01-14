@@ -7,6 +7,7 @@ export const registerUserSchema = Joi.object({
   }),
   password: Joi.string()
     .min(8)
+    .max(32)
     .pattern(
       new RegExp(
         '^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{8,}$',
@@ -15,6 +16,7 @@ export const registerUserSchema = Joi.object({
     .required()
     .messages({
       'string.min': 'Password must be at least 8 characters.',
+      'string.max': 'Password must not exceed 32 characters.',
       'string.pattern.base':
         'Password must include one uppercase letter, one lowercase letter, one number, and one special character.',
       'string.empty': 'Password is required.',

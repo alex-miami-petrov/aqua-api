@@ -1,8 +1,8 @@
 tags:
   - Auth
-summary: Login user
-operationId: signin
-description: Authenticate a user and return an access token
+summary: Register a new user
+operationId: signup
+description: Create a new user account.
 security:
   - bearerAuth: []
 requestBody:
@@ -20,13 +20,17 @@ requestBody:
             format: email
             description: User's email address
             example: john.doe@example.com
+            pattern: '^[^@]+@[^@]+\.[^@]+$'
           password:
             type: string
             description: User's password
             example: 'P@ssw0rd123'
+            minLength: 8
+            maxLength: 128
+            pattern: '^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{8,}$'
 responses:
-  '200':
-    description: Successfully logged in user
+  '201':
+    description: Successfully registered user
     content:
       application/json:
         schema:
@@ -34,18 +38,39 @@ responses:
           properties:
             status:
               type: integer
-              example: 200
+              example: 201
             message:
               type: string
-              example: Successfully logged in user!
+              example: Successfully registered user!
             data:
               type: object
-              properties:
-                accessToken:
-                  type: string
-                  description: Access token for authenticated user
-                  example: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...'
-  '401':
-    $ref: '../../components/responses/401.yaml'
+  '409':
+    description: Email already in use
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            status:
+              type: integer
+              example: 409
+            message:
+              type: string
+              example: Email is already in use.
+  '400':
+    description: Validation error (e.g., missing required fields)
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            status:
+              type: integer
+              example: 400
+            message:
+              type: string
+              example: Name, email, and password are required.
   '500':
     $ref: '../../components/responses/500.yaml'
+  '401':
+    $ref: '../../components/responses/401.yaml'
