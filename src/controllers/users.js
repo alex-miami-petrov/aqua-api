@@ -1,32 +1,22 @@
 import userService from '../services/users.js';
 import createHttpError from 'http-errors';
-import { parsePaginationParams } from '../utils/parsePaginationParams.js';
 import { parseSortParams } from '../utils/parseSortParams.js';
-// import { parseUserFilterParams } from '../utils/parseFilterParams.js';
+
 import { saveFileToUploadDir } from '../utils/saveFileToUploadDir.js';
 import { saveFileToCloudinary } from '../utils/saveFileToCloudinary.js';
 
 export const getUsersController = async (req, res) => {
-  const { page, perPage } = parsePaginationParams(req.query);
-
   const { sortBy, sortOrder } = parseSortParams(req.query);
 
-  // const filter = {
-  //   ...parseUserFilterParams(req.query),
-  //   userId: req.user._id,
-  // };
-
-  const users = await userService.getAllUsers({
-    page,
-    perPage,
+  const usersCount = await userService.getAllUsers({
     sortBy,
     sortOrder,
-    // filter,
   });
+
   res.status(200).json({
     status: 200,
-    message: 'Successfully found users!',
-    data: users,
+    message: 'Successfully retrieved user count!',
+    data: { usersCount },
   });
 };
 
