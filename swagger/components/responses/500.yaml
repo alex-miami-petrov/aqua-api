@@ -21,4 +21,4 @@ content:
           properties:
             message:
               type: string
-              example: 'Internal server Error'
+              example: 'Detailed error message'

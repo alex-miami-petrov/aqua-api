@@ -22,7 +22,7 @@
   "tags": [
     {
       "name": "Water",
-      "description": "Operations with water consumed by users."
+      "description": "Operations with water consumed by users and consumption analytics."
     },
     {
       "name": "Users",
@@ -41,15 +41,16 @@
         ],
         "summary": "Creating a record of drinking water",
         "operationId": "createWaterRecord",
-        "description": "**Creating a new record of drinking water**\n\nRequired fields\n- date: Date and time of drinking water.\n- volume: The volume of water drunk at the specified time\n          (in milliliters)\n",
+        "description": "***Creating a new record of drinking water***\n\n**Required fields**\n- date:   *Date and time of drinking water*\n          (формат \"yyyy-mm-ddThh:mm\")\n- volume: *The volume of water drunk at the specified time*\n          (in milliliters, from 50 to 5000)\n\n### Security\n- This endpoint requires authentication via a Bearer Token.\n",
         "security": [
           {
             "bearerAuth": []
           }
         ],
         "requestBody": {
+          "required": true,
           "content": {
-            "multipart/form-data": {
+            "application/json": {
               "schema": {
                 "type": "object",
                 "required": [
@@ -59,12 +60,12 @@
                 "properties": {
                   "date": {
                     "type": "string",
-                    "description": "Date and time",
+                    "description": "Date and time (формат \"yyyy-mm-ddThh:mm\")",
                     "example": "2025-01-10T14:02"
                   },
                   "volume": {
                     "type": "number",
-                    "description": "The volume of water drunk",
+                    "description": "The volume of water drunk (in milliliters)",
                     "example": 300
                   }
                 }
@@ -108,6 +109,9 @@
           "401": {
             "$ref": "#/components/responses/401"
           },
+          "409": {
+            "$ref": "#/components/responses/409"
+          },
           "500": {
             "$ref": "#/components/responses/500"
           }
@@ -121,7 +125,7 @@
         ],
         "summary": "Deleting a record of drinking water",
         "operationId": "deleteWaterRecord",
-        "description": "**Deleting a record of drinking water**\n\nThis endpoint allows you to remove an existing entry from your list.\nOnce deleted, a recording cannot be restored.\n",
+        "description": "**Deleting a record of drinking water**\n\nThis endpoint allows you to remove an existing entry from your list.\nOnce deleted, a recording cannot be restored.\n\n### Security\n- This endpoint requires authentication via a Bearer Token.\n",
         "security": [
           {
             "bearerAuth": []
@@ -176,8 +180,8 @@
         "tags": [
           "Water"
         ],
-        "summary": "Update an Existing Contact",
-        "description": "**Update specific fields of a contact by ID**\n\nThis endpoint allows you to partially update an existing water drink record.\n",
+        "summary": "Change in an existing record of the amount of water you drink",
+        "description": "**Update the entry's <volume> field by its ID.**\n\nThis endpoint allows you to partially update an existing water drink record.\n\n### Security\n- This endpoint requires authentication via a Bearer Token.\n",
         "operationId": "updateWaterRecord",
         "security": [
           {
@@ -197,10 +201,10 @@
           }
         ],
         "requestBody": {
-          "description": "Fields to update in the water record",
+          "description": "Field <volume> to update in the water record",
           "required": true,
           "content": {
-            "multipart/form-data": {
+            "application/json": {
               "schema": {
                 "type": "object",
                 "properties": {
@@ -1423,6 +1427,47 @@
           }
         }
       },
+      "409": {
+        "description": "**Conflict Error (409)**\n\nThis error occurs when there is a conflict with the current state of the resource.\n- In this case, the conflict occurs because the specified water consumption time already exists in the database.\n",
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "required": [
+                "status",
+                "message",
+                "data"
+              ],
+              "properties": {
+                "status": {
+                  "type": "integer",
+                  "description": "HTTP status code indicating the error type.",
+                  "example": 409
+                },
+                "message": {
+                  "type": "string",
+                  "description": "A brief summary of the conflict error.",
+                  "example": "ConflictError"
+                },
+                "data": {
+                  "type": "object",
+                  "required": [
+                    "message",
+                    "errors"
+                  ],
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "description": "Specific details about the error, such as the conflicting field.",
+                      "example": "Email already in use"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
       "500": {
         "description": "Internal server Error",
         "content": {
@@ -1451,7 +1496,7 @@
                   "properties": {
                     "message": {
                       "type": "string",
-                      "example": "Internal server Error"
+                      "example": "Detailed error message"
                     }
                   }
                 }

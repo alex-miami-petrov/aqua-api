@@ -1,10 +1,13 @@
 tags:
   - Water
-summary: Update an Existing Contact
+summary: Change in an existing record of the amount of water you drink
 description: |
-  **Update specific fields of a contact by ID**
+  **Update the entry's <volume> field by its ID.**
 
   This endpoint allows you to partially update an existing water drink record.
+
+  ### Security
+  - This endpoint requires authentication via a Bearer Token.
 
 operationId: updateWaterRecord
 security:
@@ -18,10 +21,10 @@ parameters:
     description: 'The unique identifier of the record to update.'
     example: '6779b9f903d039994c667196'
 requestBody:
-  description: Fields to update in the water record
+  description: Field <volume> to update in the water record
   required: true
   content:
-    multipart/form-data:
+    application/json:
       schema:
         type: object
         properties:
