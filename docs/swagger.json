@@ -21,6 +21,10 @@
   ],
   "tags": [
     {
+      "name": "Water",
+      "description": "Operations with water consumed by users."
+    },
+    {
       "name": "Users",
       "description": "Operations for managing users."
     },
@@ -30,6 +34,231 @@
     }
   ],
   "paths": {
+    "/water": {
+      "post": {
+        "tags": [
+          "Water"
+        ],
+        "summary": "Creating a record of drinking water",
+        "operationId": "createWaterRecord",
+        "description": "**Creating a new record of drinking water**\n\nRequired fields\n- date: Date and time of drinking water.\n- volume: The volume of water drunk at the specified time\n          (in milliliters)\n",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "date",
+                  "volume"
+                ],
+                "properties": {
+                  "date": {
+                    "type": "string",
+                    "description": "Date and time",
+                    "example": "2025-01-10T14:02"
+                  },
+                  "volume": {
+                    "type": "number",
+                    "description": "The volume of water drunk",
+                    "example": 300
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Creates a record",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "status",
+                    "message",
+                    "data"
+                  ],
+                  "properties": {
+                    "status": {
+                      "type": "integer",
+                      "example": 201
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Successfully created a waterRecord!"
+                    },
+                    "data": {
+                      "type": "object",
+                      "$ref": "#/components/schemas/water"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
+          }
+        }
+      }
+    },
+    "/water/{id}": {
+      "delete": {
+        "tags": [
+          "Water"
+        ],
+        "summary": "Deleting a record of drinking water",
+        "operationId": "deleteWaterRecord",
+        "description": "**Deleting a record of drinking water**\n\nThis endpoint allows you to remove an existing entry from your list.\nOnce deleted, a recording cannot be restored.\n",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "The unique identifier for the entry will be removed",
+            "example": "6779c35e16fb05e4092b039b"
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "deleted successfully **  (No Content)**",
+            "content": {}
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "404": {
+            "description": "Record not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean",
+                      "example": false
+                    },
+                    "error": {
+                      "type": "string",
+                      "example": "Record not found."
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
+          }
+        }
+      },
+      "patch": {
+        "tags": [
+          "Water"
+        ],
+        "summary": "Update an Existing Contact",
+        "description": "**Update specific fields of a contact by ID**\n\nThis endpoint allows you to partially update an existing water drink record.\n",
+        "operationId": "updateWaterRecord",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "The unique identifier of the record to update.",
+            "example": "6779b9f903d039994c667196"
+          }
+        ],
+        "requestBody": {
+          "description": "Fields to update in the water record",
+          "required": true,
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "volume": {
+                    "description": "Volume of water drunk",
+                    "type": "number",
+                    "example": 500
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successfully patched a water user record!",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "status",
+                    "message",
+                    "data"
+                  ],
+                  "properties": {
+                    "status": {
+                      "type": "integer",
+                      "example": 200
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Successfully updated the record!"
+                    },
+                    "data": {
+                      "type": "object",
+                      "$ref": "#/components/schemas/water"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
+          }
+        }
+      }
+    },
     "/users/all": {
       "get": {
         "tags": [
@@ -955,6 +1184,35 @@
       }
     },
     "schemas": {
+      "water": {
+        "type": "object",
+        "required": [
+          "date",
+          "volume"
+        ],
+        "properties": {
+          "_id": {
+            "description": "Record's id",
+            "type": "string",
+            "example": "6779b9f903d039994c667196"
+          },
+          "userId": {
+            "description": "ID of the user who owns the record",
+            "type": "string",
+            "example": "675a2bdc1396640c2c39d34c"
+          },
+          "date": {
+            "description": "Date and time of drinking water",
+            "type": "string",
+            "example": "2025-01-03T18:02"
+          },
+          "volume": {
+            "description": "Volume of water drunk",
+            "type": "number",
+            "example": 300
+          }
+        }
+      },
       "users": {
         "type": "object",
         "required": [
@@ -1095,6 +1353,69 @@
                       "type": "string",
                       "example": "Access token expired"
                     }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "404": {
+        "description": "Not Found - Session or Authorization header not found",
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "required": [
+                "status",
+                "message",
+                "data"
+              ],
+              "properties": {
+                "status": {
+                  "type": "integer",
+                  "example": 404,
+                  "description": "HTTP status code"
+                },
+                "message": {
+                  "type": "string",
+                  "example": "NotFoundError",
+                  "description": "Error message indicating that the resource was not found"
+                },
+                "data": {
+                  "type": "object",
+                  "required": [
+                    "message"
+                  ],
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "Session not found",
+                      "description": "Detailed message about the missing session or header"
+                    }
+                  },
+                  "additionalProperties": false
+                }
+              }
+            },
+            "examples": {
+              "no_token": {
+                "summary": "Session not found",
+                "value": {
+                  "status": 404,
+                  "message": "NotFoundError",
+                  "data": {
+                    "message": "Session not found"
+                  }
+                }
+              },
+              "token_expired": {
+                "summary": "Authorization header not found",
+                "value": {
+                  "status": 404,
+                  "message": "NotFoundError",
+                  "data": {
+                    "message": "Authorization header not found"
                   }
                 }
               }

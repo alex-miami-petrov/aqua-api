@@ -1,0 +1,43 @@
+tags:
+  - Water
+summary: Deleting a record of drinking water
+operationId: deleteWaterRecord
+description: |
+  **Deleting a record of drinking water**
+
+  This endpoint allows you to remove an existing entry from your list.
+  Once deleted, a recording cannot be restored.
+
+security:
+  - bearerAuth: []
+parameters:
+  - in: path
+    name: id
+    required: true
+    schema:
+      type: string
+    description: 'The unique identifier for the entry will be removed'
+    example: '6779c35e16fb05e4092b039b'
+
+responses:
+  '204':
+    description: deleted successfully
+      **  (No Content)**
+    content: {}
+  '404':
+    description: Record not found
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            success:
+              type: boolean
+              example: false
+            error:
+              type: string
+              example: 'Record not found.'
+  '500':
+    $ref: '../../../components/responses/500.yaml'
+  '401':
+    $ref: '../../../components/responses/401.yaml'

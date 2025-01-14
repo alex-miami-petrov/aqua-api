@@ -8,6 +8,8 @@ info:
     url: http://www.apache.org/licenses/LICENSE-2.0.html
 
 tags:
+  - name: Water
+    description: Operations with water consumed by users.
   - name: Users
     description: Operations for managing users.
   - name: Auth
@@ -20,6 +22,14 @@ servers:
     description: Production server
 
 paths:
+  /water:
+    post:
+      $ref: ../swagger/paths/water/post.yaml
+  /water/{id}:
+    delete:
+      $ref: ../swagger/paths/water/{id}/delete.yaml
+    patch:
+      $ref: ../swagger/paths/water/{id}/patch.yaml
   /users/all:
     get:
       $ref: '../swagger/paths/users/get.yaml'
