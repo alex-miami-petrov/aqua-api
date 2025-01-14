@@ -41,10 +41,10 @@ paths:
       $ref: '../swagger/paths/users/current/get.yaml'
   /auth/signup:
     post:
-      $ref: '../swagger/paths/auth/register.yaml'
+      $ref: '../swagger/paths/auth/signup.yaml'
   /auth/signin:
     post:
-      $ref: '../swagger/paths/auth/login.yaml'
+      $ref: '../swagger/paths/auth/signin.yaml'
   /auth/refresh:
     post:
       $ref: '../swagger/paths/auth/refresh.yaml'
