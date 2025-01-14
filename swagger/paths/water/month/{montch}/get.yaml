@@ -1,6 +1,6 @@
 tags:
   - Water
-summary: Get list of contacts
+summary: Get list of records
 operationId: getWaterDay
 description: |
   ** List of records of a user's water consumption at a specific point in time during the day**
@@ -37,6 +37,6 @@ responses:
               items:
                 $ref: '../../components/schemas/water.yaml'
   '401':
-    $ref: '../../../../components/responses/401.yaml'
+    $ref: '../../../components/responses/401.yaml'
   '500':
-    $ref: '../../../../components/responses/500.yaml'
+    $ref: '../../../components/responses/500.yaml'

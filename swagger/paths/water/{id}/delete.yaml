@@ -8,6 +8,8 @@ description: |
   This endpoint allows you to remove an existing entry from your list.
   Once deleted, a recording cannot be restored.
 
+  ### Security
+  - This endpoint requires authentication via a Bearer Token.
 security:
   - bearerAuth: []
 parameters:

@@ -9,7 +9,7 @@ info:
 
 tags:
   - name: Water
-    description: Operations with water consumed by users.
+    description: Operations with water consumed by users and consumption analytics.
   - name: Users
     description: Operations for managing users.
   - name: Auth
@@ -30,6 +30,7 @@ paths:
       $ref: ../swagger/paths/water/{id}/delete.yaml
     patch:
       $ref: ../swagger/paths/water/{id}/patch.yaml
+
   /users/all:
     get:
       $ref: '../swagger/paths/users/get.yaml'

@@ -2,8 +2,7 @@ description: |
   **Conflict Error (409)**
 
   This error occurs when there is a conflict with the current state of the resource.
-  - In this case, the conflict arises because the `email` provided is already in use by another account.
-
+  - In this case, the conflict occurs because the specified water consumption time already exists in the database.
 content:
   application/json:
     schema:
