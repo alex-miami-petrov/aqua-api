@@ -1,0 +1,21 @@
+type: object
+required:
+  - date
+  - volume
+properties:
+  _id:
+    description: "Record's id"
+    type: string
+    example: 6779b9f903d039994c667196
+  userId:
+    description: ID of the user who owns the record
+    type: string
+    example: '675a2bdc1396640c2c39d34c'
+  date:
+    description: 'Date and time of drinking water'
+    type: string
+    example: '2025-01-03T18:02'
+  volume:
+    description: 'Volume of water drunk'
+    type: number
+    example: 300

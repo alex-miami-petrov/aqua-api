@@ -1,0 +1,58 @@
+tags:
+  - Water
+summary: Creating a record of drinking water
+operationId: createWaterRecord
+description: |
+  **Creating a new record of drinking water**
+
+  Required fields
+  - date: Date and time of drinking water.
+  - volume: The volume of water drunk at the specified time
+            (in milliliters)
+
+security:
+  - bearerAuth: []
+requestBody:
+  content:
+    multipart/form-data:
+      schema:
+        type: object
+        required:
+          - date
+          - volume
+        properties:
+          date:
+            type: string
+            description: Date and time
+            example: '2025-01-10T14:02'
+          volume:
+            type: number
+            description: The volume of water drunk
+            example: 300
+responses:
+  '201':
+    description: Creates a record
+    content:
+      application/json:
+        schema:
+          type: object
+          required:
+            - status
+            - message
+            - data
+          properties:
+            status:
+              type: integer
+              example: 201
+            message:
+              type: string
+              example: 'Successfully created a waterRecord!'
+            data:
+              type: object
+              $ref: '../../components/schemas/water.yaml'
+  '400':
+    $ref: '../../components/responses/400.yaml'
+  '401':
+    $ref: '../../components/responses/401.yaml'
+  '500':
+    $ref: '../../components/responses/500.yaml'
