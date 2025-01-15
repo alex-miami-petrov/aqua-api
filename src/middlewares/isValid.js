@@ -4,22 +4,24 @@ import { waterDaySchema, waterMonthSchema } from '../validation/water.js';
 
 export function isValidDay(req, res, next) {
   const { date } = req.params;
-  console.log('day', date);
-  const { error, value } = waterDaySchema.validate(date);
-  console.log('valid', value);
-  console.log('error', error);
+  const { error, value } = waterDaySchema.validate({ date });
+
   if (error) {
-    return next(createHttpError(400, error.message));
+    return next(
+      createHttpError(400, error.message + ` (Your value is ${value.date})`),
+    );
   }
   next();
 }
 
 export function isValidMonth(req, res, next) {
   const { month } = req.params;
-  const { error, value } = waterMonthSchema.validate(month);
+  const { error, value } = waterMonthSchema.validate({ month });
 
   if (error) {
-    return next(createHttpError(400, error.message));
+    return next(
+      createHttpError(400, error.message + ` (Your value is ${value.month})`),
+    );
   }
   next();
 }
