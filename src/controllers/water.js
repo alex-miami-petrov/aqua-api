@@ -68,6 +68,8 @@ export async function getDayWaterController(req, res) {
   const waterDayByHour = await getWaterDay(userId, date);
 
   res.json({
+    status: 200,
+    message: 'Successfully found records!',
     waterDayByHour,
   });
 }
@@ -109,6 +111,8 @@ export async function getMonthWaterController(req, res) {
   }
 
   res.status(200).json({
+    status: 200,
+    message: 'Successfully found records!',
     waterMonthByDay,
   });
 }
