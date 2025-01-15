@@ -706,7 +706,7 @@
           "Auth"
         ],
         "summary": "Logout user",
-        "operationId": "signup",
+        "operationId": "logout",
         "description": "Logout the user and invalidate their session.",
         "security": [
           {
