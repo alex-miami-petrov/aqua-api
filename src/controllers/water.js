@@ -65,12 +65,23 @@ export async function getDayWaterController(req, res) {
   const userId = req.user._id;
   const { date } = req.params;
 
+  const user = await getUser(userId);
+  if (!user) {
+    throw new createHttpError(404, 'User not found');
+  }
+  const normaWater = user.waterNorma;
+
   const waterDayByHour = await getWaterDay(userId, date);
+  const totalWaterDay = waterDayByHour
+    .reduce((acc, record) => acc + record.volume, 0)
+    .toFixed(0);
+  let percent = Math.floor((totalWaterDay / normaWater) * 100);
+  percent = percent >= 100 ? 100 : percent;
 
   res.json({
     status: 200,
     message: 'Successfully found records!',
-    waterDayByHour,
+    data: { totalWaterDay, percent, waterDayByHour },
   });
 }
 
@@ -100,7 +111,7 @@ export async function getMonthWaterController(req, res) {
     let day = i < 10 ? '0' + String(i) : String(i);
     day = month + '-' + day;
     const totalWaterDay = waterByDay[day] || 0;
-    const percent = ((totalWaterDay / normaWater) * 100).toFixed(0);
+    const percent = Math.floor((totalWaterDay / normaWater) * 100);
 
     if (totalWaterDay > 0) {
       waterMonthByDay.push({
@@ -114,6 +125,6 @@ export async function getMonthWaterController(req, res) {
   res.status(200).json({
     status: 200,
     message: 'Successfully found records!',
-    waterMonthByDay,
+    data: { waterMonthByDay },
   });
 }

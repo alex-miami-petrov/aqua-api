@@ -282,7 +282,7 @@
         "tags": [
           "Water"
         ],
-        "summary": "Get a list of posts for the day",
+        "summary": "Get a list of water consumed per day by hour",
         "operationId": "getWaterDay",
         "description": "** List of records of a user's water consumption at a specific point in time during the day**\n** The entries are sorted by time in ascending order. **\nThis endpoint selects records without service fields\n\n### Security\n- This endpoint requires authentication via a Bearer Token.\n",
         "security": [
@@ -319,7 +319,7 @@
                       "example": "Successfully retrieved records."
                     },
                     "data": {
-                      "type": "array",
+                      "type": "object",
                       "items": {
                         "$ref": "#/components/schemas/waterDay"
                       }
@@ -343,7 +343,7 @@
         "tags": [
           "Water"
         ],
-        "summary": "Get list of records",
+        "summary": "Get list of water consumed for the month by day",
         "operationId": "getWaterMonth",
         "description": "** List of days of the month with the amount of water drunk and percentage of the daily norm**\n\n### Security\n  - This endpoint requires authentication via a Bearer Token.\n",
         "security": [
@@ -380,7 +380,7 @@
                       "example": "Successfully found records!"
                     },
                     "data": {
-                      "type": "array",
+                      "type": "object",
                       "items": {
                         "$ref": "#/components/schemas/waterMonth"
                       }
@@ -1162,48 +1162,68 @@
         }
       },
       "waterDay": {
-        "type": "array",
+        "type": "object",
         "required": [
+          "totalWaterDay",
+          "percent",
           "waterDayByHour"
         ],
         "properties": {
-          "day": {
-            "description": "Date and time of drinking water",
-            "type": "string",
-            "example": "2025-01-03"
-          },
-          "totalVolume": {
-            "description": "Amount of water drunk on a given day",
+          "totalWaterDay": {
+            "description": "Total water drunk per day",
             "type": "number",
-            "example": 1500
+            "example": 800
           },
           "percent": {
-            "description": "Percentage of water consumed relative to the daily norm",
+            "description": "Percentage of water actually drunk to the daily norm",
             "type": "number",
-            "example": 100
+            "example": 44
+          },
+          "waterDayByHour": {
+            "description": "Array of data on water consumed by hour",
+            "type": "array",
+            "_id": {
+              "description": "Record's id",
+              "type": "string",
+              "example": "6779b9f903d039994c667196"
+            },
+            "date": {
+              "description": "Date and time of drinking water",
+              "type": "string",
+              "example": "2025-01-03T18:02"
+            },
+            "volume": {
+              "description": "Amount of water drunk at the specified time",
+              "type": "number",
+              "example": 300
+            }
           }
         }
       },
       "waterMonth": {
-        "type": "array",
+        "type": "object",
         "required": [
-          "waterMonthByDay\""
+          "waterMonthByDay"
         ],
         "properties": {
-          "_id": {
-            "description": "Record's id",
-            "type": "string",
-            "example": "6779b9f903d039994c667196"
-          },
-          "date": {
-            "description": "Date and time of drinking water",
-            "type": "string",
-            "example": "2025-01-03T18:02"
-          },
-          "volume": {
-            "description": "Volume of water drunk",
-            "type": "number",
-            "example": 500
+          "waterMonthByDay": {
+            "description": "An array of data on water consumed by day",
+            "type": "array",
+            "day": {
+              "description": "Date of drinking water",
+              "type": "string",
+              "example": "2025-01-03"
+            },
+            "totalVolume": {
+              "description": "Volume of water drunk per day",
+              "type": "number",
+              "example": 1500
+            },
+            "percent": {
+              "description": "Percentage of water actually drunk to the daily norm",
+              "type": "number",
+              "example": 100
+            }
           }
         }
       },

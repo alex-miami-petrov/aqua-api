@@ -1,6 +1,6 @@
 tags:
   - Water
-summary: Get list of records
+summary: Get list of water consumed for the month by day
 operationId: getWaterMonth
 description: |
   ** List of days of the month with the amount of water drunk and percentage of the daily norm**
@@ -33,7 +33,7 @@ responses:
               type: string
               example: Successfully found records!
             data:
-              type: array
+              type: object
               items:
                 $ref: ../../../../components/schemas/waterMonth.yaml
   '401':
