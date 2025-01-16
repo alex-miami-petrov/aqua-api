@@ -1,0 +1,16 @@
+type: array
+required:
+  - waterDayByHour
+properties:
+  day:
+    description: 'Date and time of drinking water'
+    type: string
+    example: '2025-01-03'
+  totalVolume:
+    description: 'Amount of water drunk on a given day'
+    type: number
+    example: 1500
+  percent:
+    description: 'Percentage of water consumed relative to the daily norm'
+    type: number
+    example: 100

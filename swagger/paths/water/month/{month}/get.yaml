@@ -1,23 +1,23 @@
 tags:
   - Water
 summary: Get list of records
-operationId: getWaterDay
+operationId: getWaterMonth
 description: |
-  ** List of records of a user's water consumption at a specific point in time during the day**
+  ** List of days of the month with the amount of water drunk and percentage of the daily norm**
 
-  This endpoint allows you to:
-  - selects records without service fields
+  ### Security
+    - This endpoint requires authentication via a Bearer Token.
 
 security:
   - bearerAuth: []
 parameters:
-  - name: date
+  - name: month
     in: path
     required: true
     schema:
       type: string
-    description: 'Today'
-    example: 2025-01-04
+    description: 'Month for which water information is needed'
+    example: 2025-01
 responses:
   '200':
     description: Successfully found contacts!
@@ -31,12 +31,12 @@ responses:
               example: 200
             message:
               type: string
-              example: Successfully retrieved records.
+              example: Successfully found records!
             data:
               type: array
               items:
-                $ref: '../../components/schemas/water.yaml'
+                $ref: ../../../../components/schemas/waterMonth.yaml
   '401':
-    $ref: '../../../components/responses/401.yaml'
+    $ref: ../../../../components/responses/401.yaml
   '500':
-    $ref: '../../../components/responses/500.yaml'
+    $ref: ../../../../components/responses/500.yaml
