@@ -47,14 +47,14 @@ export async function getWaterDay(userId, date) {
 }
 
 export async function getWaterMonth(userId, month) {
-  const startMonth = month + '-01T00:00';
-  const endMonth = month + '-31T23:59';
+  const startMonth = month + ',';
+  const endMonth = month + '.';
 
   return await WaterCollection.find({
     userId: userId,
     date: {
-      $gte: startMonth,
-      $lte: endMonth,
+      $gt: startMonth,
+      $lt: endMonth,
     },
   });
 }

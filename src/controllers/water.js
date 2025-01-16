@@ -84,6 +84,7 @@ export async function getMonthWaterController(req, res) {
   const normaWater = user.waterNorma;
 
   const waterRecords = await getWaterMonth(userId, month);
+
   const waterByDay = waterRecords.reduce((acc, record) => {
     const day = record.date.slice(0, 10);
     if (!acc[day]) {
@@ -99,7 +100,7 @@ export async function getMonthWaterController(req, res) {
     let day = i < 10 ? '0' + String(i) : String(i);
     day = month + '-' + day;
     const totalWaterDay = waterByDay[day] || 0;
-    const percent = ((totalWaterDay / normaWater) * 100).toFixed(2);
+    const percent = ((totalWaterDay / normaWater) * 100).toFixed(0);
 
     if (totalWaterDay > 0) {
       waterMonthByDay.push({

@@ -30,7 +30,12 @@ paths:
       $ref: ../swagger/paths/water/{id}/delete.yaml
     patch:
       $ref: ../swagger/paths/water/{id}/patch.yaml
-
+  /water/day/{date}:
+    get:
+      $ref: ../swagger/paths/water/day/{date}/get.yaml
+  /water/month/{month}:
+    get:
+       $ref: ../swagger/paths/water/month/{month}/get.yaml
   /users/current:
     patch:
       $ref: '../swagger/paths/users/current/patch.yaml'

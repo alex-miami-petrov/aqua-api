@@ -41,7 +41,7 @@
         ],
         "summary": "Creating a record of drinking water",
         "operationId": "createWaterRecord",
-        "description": "***Creating a new record of drinking water***\n\n**Required fields**\n- date:   *Date and time of drinking water*\n          (формат \"yyyy-mm-ddThh:mm\")\n- volume: *The volume of water drunk at the specified time*\n          (in milliliters, from 50 to 5000)\n\n### Security\n- This endpoint requires authentication via a Bearer Token.\n",
+        "description": "***Creating a new record of water drunk at a specific time***\n\n**Required fields**\n- date:   *Date and time of drinking water*\n          (формат \"yyyy-mm-ddThh:mm\")\n- volume: *The volume of water drunk at the specified time*\n          (in milliliters, from 50 to 5000)\n\n### Security\n- This endpoint requires authentication via a Bearer Token.\n",
         "security": [
           {
             "bearerAuth": []
@@ -181,7 +181,7 @@
           "Water"
         ],
         "summary": "Change in an existing record of the amount of water you drink",
-        "description": "**Update the entry's <volume> field by its ID.**\n\nThis endpoint allows you to partially update an existing water drink record.\n\n### Security\n- This endpoint requires authentication via a Bearer Token.\n",
+        "description": "**Update the field for recording the water consumed at a specific point in time by its ID.**\n\nThis endpoint allows you to partially update an existing water drink record.\n\n### Security\n- This endpoint requires authentication via a Bearer Token.\n",
         "operationId": "updateWaterRecord",
         "security": [
           {
@@ -248,14 +248,150 @@
               }
             }
           },
-          "400": {
-            "$ref": "#/components/responses/400"
-          },
           "401": {
             "$ref": "#/components/responses/401"
           },
           "404": {
-            "$ref": "#/components/responses/404"
+            "description": "Record not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean",
+                      "example": false
+                    },
+                    "error": {
+                      "type": "string",
+                      "example": "Record not found."
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
+          }
+        }
+      }
+    },
+    "/water/day/{date}": {
+      "get": {
+        "tags": [
+          "Water"
+        ],
+        "summary": "Get a list of posts for the day",
+        "operationId": "getWaterDay",
+        "description": "** List of records of a user's water consumption at a specific point in time during the day**\n** The entries are sorted by time in ascending order. **\nThis endpoint selects records without service fields\n\n### Security\n- This endpoint requires authentication via a Bearer Token.\n",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "date",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "date",
+            "example": "2025-01-04"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successfully found records!",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "integer",
+                      "example": 200
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Successfully retrieved records."
+                    },
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/waterDay"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
+          }
+        }
+      }
+    },
+    "/water/month/{month}": {
+      "get": {
+        "tags": [
+          "Water"
+        ],
+        "summary": "Get list of records",
+        "operationId": "getWaterMonth",
+        "description": "** List of days of the month with the amount of water drunk and percentage of the daily norm**\n\n### Security\n  - This endpoint requires authentication via a Bearer Token.\n",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "month",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Month for which water information is needed",
+            "example": "2025-01"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successfully found contacts!",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "integer",
+                      "example": 200
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Successfully found records!"
+                    },
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/waterMonth"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
           },
           "500": {
             "$ref": "#/components/responses/500"
@@ -1021,7 +1157,53 @@
           "volume": {
             "description": "Volume of water drunk",
             "type": "number",
-            "example": 300
+            "example": 500
+          }
+        }
+      },
+      "waterDay": {
+        "type": "array",
+        "required": [
+          "waterDayByHour"
+        ],
+        "properties": {
+          "day": {
+            "description": "Date and time of drinking water",
+            "type": "string",
+            "example": "2025-01-03"
+          },
+          "totalVolume": {
+            "description": "Amount of water drunk on a given day",
+            "type": "number",
+            "example": 1500
+          },
+          "percent": {
+            "description": "Percentage of water consumed relative to the daily norm",
+            "type": "number",
+            "example": 100
+          }
+        }
+      },
+      "waterMonth": {
+        "type": "array",
+        "required": [
+          "waterMonthByDay\""
+        ],
+        "properties": {
+          "_id": {
+            "description": "Record's id",
+            "type": "string",
+            "example": "6779b9f903d039994c667196"
+          },
+          "date": {
+            "description": "Date and time of drinking water",
+            "type": "string",
+            "example": "2025-01-03T18:02"
+          },
+          "volume": {
+            "description": "Volume of water drunk",
+            "type": "number",
+            "example": 500
           }
         }
       },
@@ -1165,69 +1347,6 @@
                       "type": "string",
                       "example": "Access token expired"
                     }
-                  }
-                }
-              }
-            }
-          }
-        }
-      },
-      "404": {
-        "description": "Not Found - Session or Authorization header not found",
-        "content": {
-          "application/json": {
-            "schema": {
-              "type": "object",
-              "required": [
-                "status",
-                "message",
-                "data"
-              ],
-              "properties": {
-                "status": {
-                  "type": "integer",
-                  "example": 404,
-                  "description": "HTTP status code"
-                },
-                "message": {
-                  "type": "string",
-                  "example": "NotFoundError",
-                  "description": "Error message indicating that the resource was not found"
-                },
-                "data": {
-                  "type": "object",
-                  "required": [
-                    "message"
-                  ],
-                  "properties": {
-                    "message": {
-                      "type": "string",
-                      "example": "Session not found",
-                      "description": "Detailed message about the missing session or header"
-                    }
-                  },
-                  "additionalProperties": false
-                }
-              }
-            },
-            "examples": {
-              "no_token": {
-                "summary": "Session not found",
-                "value": {
-                  "status": 404,
-                  "message": "NotFoundError",
-                  "data": {
-                    "message": "Session not found"
-                  }
-                }
-              },
-              "token_expired": {
-                "summary": "Authorization header not found",
-                "value": {
-                  "status": 404,
-                  "message": "NotFoundError",
-                  "data": {
-                    "message": "Authorization header not found"
                   }
                 }
               }

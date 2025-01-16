@@ -2,7 +2,7 @@ tags:
   - Water
 summary: Change in an existing record of the amount of water you drink
 description: |
-  **Update the entry's <volume> field by its ID.**
+  **Update the field for recording the water consumed at a specific point in time by its ID.**
 
   This endpoint allows you to partially update an existing water drink record.
 
@@ -53,11 +53,20 @@ responses:
             data:
               type: object
               $ref: '../../../components/schemas/water.yaml'
-  '400':
-    $ref: '../../../components/responses/400.yaml'
+  '404':
+    description: Record not found
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            success:
+              type: boolean
+              example: false
+            error:
+              type: string
+              example: 'Record not found.'
   '401':
     $ref: '../../../components/responses/401.yaml'
-  '404':
-    $ref: '../../../components/responses/404.yaml'
   '500':
     $ref: '../../../components/responses/500.yaml'
