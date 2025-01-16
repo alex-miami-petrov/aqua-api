@@ -1,17 +1,10 @@
 import userService from '../services/users.js';
 import createHttpError from 'http-errors';
-import { parseSortParams } from '../utils/parseSortParams.js';
 
 import { saveFileToUploadDir } from '../utils/saveFileToUploadDir.js';
 import { saveFileToCloudinary } from '../utils/saveFileToCloudinary.js';
-
 export const getUsersController = async (req, res) => {
-  const { sortBy, sortOrder } = parseSortParams(req.query);
-
-  const usersCount = await userService.getAllUsers({
-    sortBy,
-    sortOrder,
-  });
+  const usersCount = await userService.getAllUsers();
 
   res.status(200).json({
     status: 200,
