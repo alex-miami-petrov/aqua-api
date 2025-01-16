@@ -1,6 +1,6 @@
 import Users from '../models/users.js';
 
-const getAllUsers = async ({ filter = {} }) => {
+const getAllUsers = async ({ filter = {} } = {}) => {
   const usersCount = await Users.find({
     userId: filter.userId,
   }).countDocuments();
