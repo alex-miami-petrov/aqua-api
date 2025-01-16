@@ -13,9 +13,10 @@ import { bodyCleaner } from '../middlewares/bodyCleaner.js';
 import { editUserSchema, userSchema } from '../validation/users.js';
 
 const router = Router();
-router.use(authenticate);
 
 router.get('/all', ctrlWrapper(getUsersController));
+router.use(authenticate);
+
 router.get('/current', ctrlWrapper(getCurrenttUserController));
 
 router.post(
