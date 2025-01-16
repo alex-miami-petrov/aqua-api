@@ -1,16 +1,19 @@
-type: array
+type: object
 required:
-  - waterMonthByDay"
+  - waterMonthByDay
 properties:
-  _id:
-    description: "Record's id"
-    type: string
-    example: 6779b9f903d039994c667196
-  date:
-    description: 'Date and time of drinking water'
-    type: string
-    example: '2025-01-03T18:02'
-  volume:
-    description: 'Volume of water drunk'
-    type: number
-    example: 500
+  waterMonthByDay:
+    description: 'An array of data on water consumed by day'
+    type: array
+    day:
+      description: 'Date of drinking water'
+      type: string
+      example: '2025-01-03'
+    totalVolume:
+      description: 'Volume of water drunk per day'
+      type: number
+      example: 1500
+    percent:
+      description: 'Percentage of water actually drunk to the daily norm'
+      type: number
+      example: 100

@@ -1,6 +1,6 @@
 tags:
   - Water
-summary: Get a list of posts for the day
+summary: Get a list of water consumed per day by hour
 operationId: getWaterDay
 description: |
   ** List of records of a user's water consumption at a specific point in time during the day**
@@ -34,7 +34,7 @@ responses:
               type: string
               example: Successfully retrieved records.
             data:
-              type: array
+              type: object
               items:
                 $ref: '../../../../components/schemas/waterDay.yaml'
   '401':
