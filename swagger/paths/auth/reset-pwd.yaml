@@ -17,7 +17,7 @@ requestBody:
         properties:
           password:
             type: string
-            description: New password
+            description: New password. Must be 8-32 characters long, containing at least one uppercase letter, one lowercase letter, one number, and one special character.
             example: 'N3wP@ssw0rd'
           token:
             type: string
