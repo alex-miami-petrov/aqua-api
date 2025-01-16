@@ -33,6 +33,15 @@ router.post(
   validateBody(loginUserSchema),
   ctrlWrapper(loginUserCtrl),
 );
+
+router.get('/get-oauth-url', ctrlWrapper(getAuthUrlCtrl));
+
+router.post(
+  '/confirm-oauth',
+  validateBody(confirmAuthSchema),
+  ctrlWrapper(confirmAuthCtrl),
+);
+
 router.use(authenticate);
 
 router.post('/refresh', ctrlWrapper(refreshSessionCtrl));
@@ -49,14 +58,6 @@ router.post(
   '/reset-pwd',
   validateBody(resetPasswordSchema),
   ctrlWrapper(resetPasswordCtrl),
-);
-
-router.get('/get-oauth-url', ctrlWrapper(getAuthUrlCtrl));
-
-router.post(
-  '/confirm-oauth',
-  validateBody(confirmAuthSchema),
-  ctrlWrapper(confirmAuthCtrl),
 );
 
 export default router;
