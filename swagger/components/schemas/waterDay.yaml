@@ -13,17 +13,22 @@ properties:
     type: number
     example: 44
   waterDayByHour:
-    description: 'Array of data on water consumed by hour'
+    description: 'Array of objects: of data on water consumed by hour'
     type: array
-    _id:
-      description: "Record's id"
-      type: string
-      example: 6779b9f903d039994c667196
-    date:
-      description: 'Date and time of drinking water'
-      type: string
-      example: '2025-01-03T18:02'
-    volume:
-      description: 'Amount of water drunk at the specified time'
-      type: number
-      example: 300
+    required:
+      - _id
+      - date
+      - volume
+    properties:
+      _id:
+        description: "Record's id"
+        type: string
+        example: 6779b9f903d039994c667196
+      date:
+        description: 'Date and time of drinking water'
+        type: string
+        example: '2025-01-03T18:02'
+      volume:
+        description: 'Amount of water drunk at the specified time'
+        type: number
+        example: 300

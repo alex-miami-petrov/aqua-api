@@ -3,17 +3,22 @@ required:
   - waterMonthByDay
 properties:
   waterMonthByDay:
-    description: 'An array of data on water consumed by day'
     type: array
-    day:
-      description: 'Date of drinking water'
-      type: string
-      example: '2025-01-03'
-    totalVolume:
-      description: 'Volume of water drunk per day'
-      type: number
-      example: 1500
-    percent:
-      description: 'Percentage of water actually drunk to the daily norm'
-      type: number
-      example: 100
+    description: 'Array of objects: water consumption data for each day of the month.'
+    required:
+      - day
+      - totalVolume
+      - percent
+    properties:
+      day:
+        description: 'Date of drinking water'
+        type: string
+        example: '2025-01-03'
+      totalVolume:
+        description: 'Volume of water drunk per day'
+        type: number
+        example: 1500
+      percent:
+        description: 'Percentage of water actually drunk to the daily norm'
+        type: number
+        example: 100

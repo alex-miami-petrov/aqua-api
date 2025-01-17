@@ -3,9 +3,14 @@ tags:
 summary: Get a list of water consumed per day by hour
 operationId: getWaterDay
 description: |
-  ** List of records of a user's water consumption at a specific point in time during the day**
-  ** The entries are sorted by time in ascending order. **
-  This endpoint selects records without service fields
+  ***Data on daily water consumption and their analysis***
+
+  **You get:**
+  - total water consumption per day
+  - percentage of water consumed relative to the daily norm
+  - array of volume of water drunk by hour
+
+  **ATTENTION: The array entries are sorted by time in ascending order.**
 
   ### Security
   - This endpoint requires authentication via a Bearer Token.
@@ -34,9 +39,7 @@ responses:
               type: string
               example: Successfully retrieved records.
             data:
-              type: object
-              items:
-                $ref: '../../../../components/schemas/waterDay.yaml'
+              $ref: '../../../../components/schemas/waterDay.yaml'
   '401':
     $ref: ../../../../components/responses/401.yaml
   '500':
