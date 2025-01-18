@@ -3,7 +3,14 @@ tags:
 summary: Get list of water consumed for the month by day
 operationId: getWaterMonth
 description: |
-  ** List of days of the month with the amount of water drunk and percentage of the daily norm**
+  ***List of days of the month with the amount of water drunk and percentage of the daily norm***
+
+  **You get array with elements:**
+  - day of the month
+  - total amount of water drunk that day
+  - percentage of water consumed to the daily norm
+
+  **ATTENTION: Days for which there is no data on water consumed are not displayed.**
 
   ### Security
     - This endpoint requires authentication via a Bearer Token.
@@ -33,9 +40,7 @@ responses:
               type: string
               example: Successfully found records!
             data:
-              type: object
-              items:
-                $ref: ../../../../components/schemas/waterMonth.yaml
+              $ref: ../../../../components/schemas/waterMonth.yaml
   '401':
     $ref: ../../../../components/responses/401.yaml
   '500':
