@@ -59,7 +59,7 @@ export const refreshSessionCtrl = async (req, res) => {
   res.cookie('refreshToken', session.refreshToken, {
     httpOnly: true,
     secure: process.env.NODE_ENV === 'production',
-    sameSite: 'strict',
+    sameSite: 'Lax',
     expires: new Date(Date.now() + ONE_DAY),
   });
 

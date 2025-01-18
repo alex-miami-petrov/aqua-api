@@ -14,8 +14,14 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 app.use(cookieParser());
+
 app.use('/uploads', express.static(UPLOAD_DIR));
 app.use('/api-docs', swaggerDocs());
+
+app.use((req, res, next) => {
+  res.removeHeader('Cross-Origin-Opener-Policy');
+  next();
+});
 
 app.use((req, res, next) => {
   logger.info(`${req.method} ${req.url}`);
