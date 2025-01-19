@@ -132,8 +132,15 @@ export const confirmAuthCtrl = async (req, res) => {
 
   res.cookie('sessionId', session._id, {
     httpOnly: true,
+    secure: process.env.NODE_ENV === 'production',
+    sameSite: 'strict',
     expires: new Date(Date.now() + ONE_DAY),
   });
+
+  // res.cookie('sessionId', session._id, {
+  //   httpOnly: true,
+  //   expires: new Date(Date.now() + ONE_DAY),
+  // });
 
   res.status(200).json({
     status: 200,
