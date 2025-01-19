@@ -9,6 +9,7 @@ description: |
   - day of the month
   - total amount of water drunk that day
   - percentage of water consumed to the daily norm
+    (if the percentage is greater than 100, then the value 100 is taken)
 
   **ATTENTION: Days for which there is no data on water consumed are not displayed.**
 

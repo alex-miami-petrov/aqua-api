@@ -31,15 +31,20 @@ export async function updateWaterRecord(id, userId, updatedData) {
 export async function getUser(userId) {
   return await Users.findById(userId);
 }
+
 export async function getWaterDay(userId, date) {
   const startDay = date + 'S';
-  const endDay = date + 'U';
+
+  let nextDay = new Date(date);
+  nextDay.setDate(nextDay.getDate() + 1);
+  nextDay = nextDay.toLocaleDateString('sv-SE');
+
   return await WaterCollection.find(
     {
       userId: userId,
       date: {
         $gt: startDay,
-        $lt: endDay,
+        $lt: nextDay,
       },
     },
     { _id: true, date: true, volume: true },
@@ -47,14 +52,25 @@ export async function getWaterDay(userId, date) {
 }
 
 export async function getWaterMonth(userId, month) {
-  const startMonth = month + ',';
-  const endMonth = month + '.';
+  let preMonth = new Date(
+    Number(month.slice(0, 4)),
+    Number(month.slice(5)) - 1,
+    0,
+  );
+  preMonth = preMonth.toLocaleDateString('sv-SE').slice(0, 7);
+
+  let nextMonth = new Date(
+    Number(month.slice(0, 4)),
+    Number(month.slice(5)),
+    1,
+  );
+  nextMonth = nextMonth.toLocaleDateString('sv-SE').slice(0, 7);
 
   return await WaterCollection.find({
     userId: userId,
     date: {
-      $gt: startMonth,
-      $lt: endMonth,
+      $gt: preMonth,
+      $lt: nextMonth,
     },
   });
 }
