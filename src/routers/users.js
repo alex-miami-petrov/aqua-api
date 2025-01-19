@@ -1,7 +1,6 @@
 import { Router } from 'express';
 import {
   getUsersController,
-  createUserController,
   getCurrenttUserController,
   updateCurrentUserController,
 } from '../controllers/users.js';
