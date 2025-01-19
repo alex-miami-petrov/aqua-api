@@ -8,6 +8,7 @@ description: |
   **You get:**
   - total water consumption per day
   - percentage of water consumed relative to the daily norm
+     (if the percentage is greater than 100, then the value 100 is taken)
   - array of volume of water drunk by hour
 
   **ATTENTION: The array entries are sorted by time in ascending order.**
