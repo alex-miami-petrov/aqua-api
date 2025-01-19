@@ -10,7 +10,7 @@ import { validateBody } from '../middlewares/validateBody.js';
 import { authenticate } from '../middlewares/authenticate.js';
 import { upload } from '../middlewares/multer.js';
 import { bodyCleaner } from '../middlewares/bodyCleaner.js';
-import { editUserSchema, userSchema } from '../validation/users.js';
+import { editUserSchema } from '../validation/users.js';
 
 const router = Router();
 
