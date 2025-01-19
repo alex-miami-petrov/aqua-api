@@ -19,13 +19,13 @@ router.use(authenticate);
 
 router.get('/current', ctrlWrapper(getCurrenttUserController));
 
-router.post(
-  '/',
-  upload.single('photo'),
-  bodyCleaner,
-  validateBody(userSchema),
-  ctrlWrapper(createUserController),
-);
+// router.post(
+//   '/',
+//   upload.single('photo'),
+//   bodyCleaner,
+//   validateBody(userSchema),
+//   ctrlWrapper(createUserController),
+// );
 
 router.patch(
   '/current',

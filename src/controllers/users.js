@@ -29,31 +29,31 @@ export const getCurrenttUserController = async (req, res) => {
   });
 };
 
-export const createUserController = async (req, res) => {
-  const userData = { ...req.body, userId: req.user._id };
-  const photo = req.file;
+// export const createUserController = async (req, res) => {
+//   const userData = { ...req.body, userId: req.user._id };
+//   const photo = req.file;
 
-  let photoUrl;
+//   let photoUrl;
 
-  if (photo) {
-    if (process.env.ENABLE_CLOUDINARY === 'true') {
-      photoUrl = await saveFileToCloudinary(photo);
-    } else {
-      photoUrl = await saveFileToUploadDir(photo);
-    }
-  }
+//   if (photo) {
+//     if (process.env.ENABLE_CLOUDINARY === 'true') {
+//       photoUrl = await saveFileToCloudinary(photo);
+//     } else {
+//       photoUrl = await saveFileToUploadDir(photo);
+//     }
+//   }
 
-  const newUser = await userService.addUser({
-    ...userData,
-    photo: photoUrl,
-  });
+//   const newUser = await userService.addUser({
+//     ...userData,
+//     photo: photoUrl,
+//   });
 
-  res.status(201).json({
-    status: 201,
-    message: 'Successfully created a user!',
-    data: newUser,
-  });
-};
+//   res.status(201).json({
+//     status: 201,
+//     message: 'Successfully created a user!',
+//     data: newUser,
+//   });
+// };
 
 export const updateCurrentUserController = async (req, res, next) => {
   const userId = req.user._id;
@@ -98,13 +98,13 @@ export const updateCurrentUserController = async (req, res, next) => {
   }
 };
 
-export const deleteUserController = async (req, res) => {
-  const { customerId } = req.params;
-  const contact = await userService.deleteContact(customerId, req.user._id);
+// export const deleteUserController = async (req, res) => {
+//   const { customerId } = req.params;
+//   const contact = await userService.deleteContact(customerId, req.user._id);
 
-  if (!contact) {
-    throw new createHttpError.NotFound('User not found');
-  }
+//   if (!contact) {
+//     throw new createHttpError.NotFound('User not found');
+//   }
 
-  res.status(204).send();
-};
+//   res.status(204).send();
+// };
