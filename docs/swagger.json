@@ -284,7 +284,7 @@
         ],
         "summary": "Get a list of water consumed per day by hour",
         "operationId": "getWaterDay",
-        "description": "***Data on daily water consumption and their analysis***\n\n**You get:**\n- total water consumption per day\n- percentage of water consumed relative to the daily norm\n- array of volume of water drunk by hour\n\n**ATTENTION: The array entries are sorted by time in ascending order.**\n\n### Security\n- This endpoint requires authentication via a Bearer Token.\n",
+        "description": "***Data on daily water consumption and their analysis***\n\n**You get:**\n- total water consumption per day\n- percentage of water consumed relative to the daily norm\n   (if the percentage is greater than 100, then the value 100 is taken)\n- array of volume of water drunk by hour\n\n**ATTENTION: The array entries are sorted by time in ascending order.**\n\n### Security\n- This endpoint requires authentication via a Bearer Token.\n",
         "security": [
           {
             "bearerAuth": []
@@ -342,7 +342,7 @@
         ],
         "summary": "Get list of water consumed for the month by day",
         "operationId": "getWaterMonth",
-        "description": "***List of days of the month with the amount of water drunk and percentage of the daily norm***\n\n**You get array with elements:**\n- day of the month\n- total amount of water drunk that day\n- percentage of water consumed to the daily norm\n\n**ATTENTION: Days for which there is no data on water consumed are not displayed.**\n\n### Security\n  - This endpoint requires authentication via a Bearer Token.\n",
+        "description": "***List of days of the month with the amount of water drunk and percentage of the daily norm***\n\n**You get array with elements:**\n- day of the month\n- total amount of water drunk that day\n- percentage of water consumed to the daily norm\n  (if the percentage is greater than 100, then the value 100 is taken)\n\n**ATTENTION: Days for which there is no data on water consumed are not displayed.**\n\n### Security\n  - This endpoint requires authentication via a Bearer Token.\n",
         "security": [
           {
             "bearerAuth": []
