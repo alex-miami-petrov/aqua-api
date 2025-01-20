@@ -12,12 +12,23 @@ const logger = pino();
 const app = express();
 
 // app.use(cors());
-app.use(
-  cors({
-    origin: 'http://localhost:5173',
-    credentials: true,
-  }),
-);
+// app.use(
+//   cors({
+//     origin: 'http://localhost:5173',
+//     credentials: true,
+//   }),
+// );
+
+const corsOptions = {
+  origin: '*',
+  methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+  allowedHeaders: ['Content-Type', 'Authorization'],
+  credentials: true,
+  optionsSuccessStatus: 200,
+};
+
+app.use(cors(corsOptions));
+
 app.use(express.json());
 app.use(cookieParser());
 
