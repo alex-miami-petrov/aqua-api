@@ -16,10 +16,8 @@ tags:
     description: Operations related to user authentication and authorization.
 
 servers:
-  - url: http://127.0.0.1:8080
-    description: Local development server
   - url: https://aqua-api-fkf8.onrender.com
-    description: Production server
+    description: Local development server
 
 paths:
   /water:
@@ -35,7 +33,7 @@ paths:
       $ref: ../swagger/paths/water/day/{date}/get.yaml
   /water/month/{month}:
     get:
-       $ref: ../swagger/paths/water/month/{month}/get.yaml
+      $ref: ../swagger/paths/water/month/{month}/get.yaml
   /users/current:
     patch:
       $ref: '../swagger/paths/users/current/patch.yaml'
