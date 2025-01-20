@@ -18,7 +18,7 @@ const usersSchema = new mongoose.Schema(
     },
     waterNorma: {
       type: Number,
-      default: 1500,
+      default: 1.5,
       max: 15000,
     },
     weight: {
