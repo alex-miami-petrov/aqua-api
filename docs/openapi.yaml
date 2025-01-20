@@ -17,7 +17,7 @@ tags:
 
 servers:
   - url: https://aqua-api-fkf8.onrender.com
-    description: Local development server
+    description: Production server
 
 paths:
   /water:
