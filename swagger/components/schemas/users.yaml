@@ -1,13 +1,13 @@
 type: object
 required:
-  - userId
+  # - userId
   - email
   - password
 properties:
-  userId:
-    type: string
-    description: 'Unique identifier for the user.'
-    example: '63c0a6f8f1d3e55678a23f1d'
+  # userId:
+  #   type: string
+  #   description: 'Unique identifier for the user.'
+  #   example: '63c0a6f8f1d3e55678a23f1d'
   name:
     type: string
     description: 'Name of the user.'
