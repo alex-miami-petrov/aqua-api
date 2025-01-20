@@ -20,7 +20,7 @@ const app = express();
 // );
 
 const corsOptions = {
-  origin: 'https://aqua-track-02-gr.vercel.app',
+  origin: ['http://localhost:5173', 'https://aqua-track-02-gr.vercel.app'],
   methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
   allowedHeaders: ['Content-Type', 'Authorization'],
   credentials: true,
