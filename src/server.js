@@ -20,7 +20,7 @@ const app = express();
 // );
 
 const corsOptions = {
-  origin: '*',
+  origin: 'https://aqua-track-02-gr.vercel.app',
   methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
   allowedHeaders: ['Content-Type', 'Authorization'],
   credentials: true,
@@ -29,16 +29,30 @@ const corsOptions = {
 
 app.use(cors(corsOptions));
 
+app.use((req, res, next) => {
+  res.setHeader(
+    'Access-Control-Allow-Origin',
+    'https://aqua-track-02-gr.vercel.app',
+  );
+  res.setHeader(
+    'Access-Control-Allow-Methods',
+    'GET,HEAD,PUT,PATCH,POST,DELETE',
+  );
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+  res.setHeader('Access-Control-Allow-Credentials', 'true');
+  next();
+});
+
 app.use(express.json());
 app.use(cookieParser());
 
 app.use('/uploads', express.static(UPLOAD_DIR));
 app.use('/api-docs', swaggerDocs());
 
-app.use((req, res, next) => {
-  res.removeHeader('Cross-Origin-Opener-Policy');
-  next();
-});
+// app.use((req, res, next) => {
+//   res.removeHeader('Cross-Origin-Opener-Policy');
+//   next();
+// });
 
 app.use((req, res, next) => {
   logger.info(`${req.method} ${req.url}`);
