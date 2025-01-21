@@ -108,15 +108,15 @@ export const resetPasswordCtrl = async (req, res) => {
   });
 };
 
-// export const getAuthUrlCtrl = async (req, res) => {
-//   const url = generateAuthUrl();
+export const getAuthUrlCtrl = async (req, res) => {
+  const url = generateAuthUrl();
 
-//   res.send({
-//     status: 200,
-//     message: 'Successfully get Google OAuth url',
-//     data: { url },
-//   });
-// };
+  res.send({
+    status: 200,
+    message: 'Successfully get Google OAuth url',
+    data: { url },
+  });
+};
 
 // export const confirmAuthCtrl = async (req, res) => {
 //   const { code } = req.body;
