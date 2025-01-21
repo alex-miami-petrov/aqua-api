@@ -15,7 +15,7 @@ import {
   logoutUserCtrl,
   requestResetEmailCtrl,
   resetPasswordCtrl,
-  getAuthUrlCtrl,
+  // getAuthUrlCtrl,
   confirmAuthCtrl,
 } from '../controllers/auth.js';
 import { authenticate } from '../middlewares/authenticate.js';

@@ -196,8 +196,19 @@ export const confirmAuthCtrl = async (req, res, next) => {
     // Логіка входу або реєстрації
     const session = await loginOrRegister(payload);
 
-    // Встановлення cookies
-    setCookies(res, session);
+    res.cookie('refreshToken', session.refreshToken, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === 'production',
+      sameSite: 'strict',
+      expires: new Date(Date.now() + ONE_DAY),
+    });
+
+    res.cookie('sessionId', session._id, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === 'production',
+      sameSite: 'strict',
+      expires: new Date(Date.now() + ONE_DAY),
+    });
 
     res.status(200).json({
       status: 200,
