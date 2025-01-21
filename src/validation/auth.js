@@ -60,5 +60,6 @@ export const resetPasswordSchema = Joi.object({
 });
 
 export const confirmAuthSchema = Joi.object({
-  code: Joi.string().required(),
+  idToken: Joi.string().required(),
+  // code: Joi.string().required(),
 });

@@ -43,6 +43,15 @@ const googleOAuth2Client = new OAuth2Client({
   clientSecret: process.env.GOOGLE_AUTH_CLIENT_SECRET,
   redirectUri: process.env.GOOGLE_AUTH_REDIRECT_URL,
 });
+
+export const generateAuthUrl = () =>
+  googleOAuth2Client.generateAuthUrl({
+    scope: [
+      'https://www.googleapis.com/auth/userinfo.email',
+      'https://www.googleapis.com/auth/userinfo.profile',
+    ],
+  });
+
 export const validateIdToken = async (idToken) => {
   try {
     // Перевіряємо ID токен

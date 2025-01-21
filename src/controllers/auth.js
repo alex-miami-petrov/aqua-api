@@ -10,7 +10,7 @@ import {
   loginOrRegister,
 } from '../services/auth.js';
 // import { generateAuthUrl, validateCode } from '../utils/googleOAuth2.js';
-import { validateIdToken } from '../utils/googleOAuth2.js';
+import { generateAuthUrl, validateIdToken } from '../utils/googleOAuth2.js';
 
 export const registerUserCtrl = async (req, res) => {
   const user = await registerUser(req.body);
@@ -109,15 +109,15 @@ export const resetPasswordCtrl = async (req, res) => {
   });
 };
 
-// export const getAuthUrlCtrl = async (req, res) => {
-//   const url = generateAuthUrl();
+export const getAuthUrlCtrl = async (req, res) => {
+  const url = generateAuthUrl();
 
-//   res.send({
-//     status: 200,
-//     message: 'Successfully get Google OAuth url',
-//     data: { url },
-//   });
-// };
+  res.send({
+    status: 200,
+    message: 'Successfully get Google OAuth url',
+    data: { url },
+  });
+};
 
 // export const confirmAuthCtrl = async (req, res) => {
 //   const { code } = req.body;
