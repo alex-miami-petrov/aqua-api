@@ -34,7 +34,7 @@ router.post(
   ctrlWrapper(loginUserCtrl),
 );
 
-router.get('/get-oauth-url', ctrlWrapper(getAuthUrlCtrl));
+// router.get('/get-oauth-url', ctrlWrapper(getAuthUrlCtrl));
 
 router.post(
   '/confirm-oauth',
