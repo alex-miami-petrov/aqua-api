@@ -119,6 +119,48 @@ export const getAuthUrlCtrl = async (req, res) => {
   });
 };
 
+export const confirmAuthCtrl = async (req, res, next) => {
+  const { idToken } = req.body;
+
+  if (!idToken) {
+    return next(createHttpError(400, 'ID Token is required'));
+  }
+
+  try {
+    const payload = await validateIdToken(idToken);
+
+    const session = await loginOrRegister(payload);
+
+    res.cookie('refreshToken', session.refreshToken, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === 'production',
+      sameSite: 'strict',
+      expires: new Date(Date.now() + ONE_DAY),
+    });
+
+    res.cookie('sessionId', session._id, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === 'production',
+      sameSite: 'strict',
+      expires: new Date(Date.now() + ONE_DAY),
+    });
+
+    res.status(200).json({
+      status: 200,
+      message: 'Login with Google successfully!',
+      data: {
+        accessToken: session.accessToken,
+      },
+    });
+  } catch (error) {
+    next(
+      error.status
+        ? error
+        : createHttpError(400, 'Invalid or expired ID Token'),
+    );
+  }
+};
+
 // export const confirmAuthCtrl = async (req, res) => {
 //   const { code } = req.body;
 //   const ticket = await validateCode(code);
@@ -181,47 +223,3 @@ export const getAuthUrlCtrl = async (req, res) => {
 //     throw createHttpError(400, 'Invalid or expired Google authorization code');
 //   }
 // };
-
-export const confirmAuthCtrl = async (req, res, next) => {
-  const { idToken } = req.body;
-
-  if (!idToken) {
-    return next(createHttpError(400, 'ID Token is required'));
-  }
-
-  try {
-    // Валідація ID токена
-    const payload = await validateIdToken(idToken);
-
-    // Логіка входу або реєстрації
-    const session = await loginOrRegister(payload);
-
-    res.cookie('refreshToken', session.refreshToken, {
-      httpOnly: true,
-      secure: process.env.NODE_ENV === 'production',
-      sameSite: 'strict',
-      expires: new Date(Date.now() + ONE_DAY),
-    });
-
-    res.cookie('sessionId', session._id, {
-      httpOnly: true,
-      secure: process.env.NODE_ENV === 'production',
-      sameSite: 'strict',
-      expires: new Date(Date.now() + ONE_DAY),
-    });
-
-    res.status(200).json({
-      status: 200,
-      message: 'Login with Google successfully!',
-      data: {
-        accessToken: session.accessToken,
-      },
-    });
-  } catch (error) {
-    next(
-      error.status
-        ? error
-        : createHttpError(400, 'Invalid or expired ID Token'),
-    );
-  }
-};

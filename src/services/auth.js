@@ -155,7 +155,7 @@ export const loginOrRegister = async (payload) => {
     const password = await bcrypt.hash(randomBytes(30).toString('base64'), 10);
 
     createdUser = await User.create({
-      name: payload.name,
+      // name: payload.name,
       email: payload.email,
       password,
     });
