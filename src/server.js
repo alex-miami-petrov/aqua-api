@@ -11,14 +11,6 @@ import { swaggerDocs } from './middlewares/swaggerDocs.js';
 const logger = pino();
 const app = express();
 
-// app.use(cors());
-// app.use(
-//   cors({
-//     origin: 'http://localhost:5173',
-//     credentials: true,
-//   }),
-// );
-
 const corsOptions = {
   origin: ['http://localhost:5173', 'https://aqua-track-02-gr.vercel.app'],
   methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',

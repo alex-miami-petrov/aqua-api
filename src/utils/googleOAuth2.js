@@ -54,16 +54,14 @@ export const generateAuthUrl = () =>
 
 export const validateIdToken = async (idToken) => {
   try {
-    // Перевіряємо ID токен
     const ticket = await googleOAuth2Client.verifyIdToken({
-      idToken, // Відправляємо ID токен безпосередньо
-      audience: process.env.GOOGLE_AUTH_CLIENT_ID, // Перевіряємо відповідність clientId
+      idToken,
+      audience: process.env.GOOGLE_AUTH_CLIENT_ID,
     });
-    // Витягуємо дані користувача з ID токена
+
     const payload = ticket.getPayload();
-    return payload; // Повертаємо дані користувача (email, ім'я, фото тощо)
+    return payload;
   } catch (error) {
-    // Обробка помилок
     if (
       error.response &&
       error.response.status >= 400 &&

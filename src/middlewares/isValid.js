@@ -6,7 +6,6 @@ export function isValidDay(req, res, next) {
   const { date } = req.params;
   const { error, value } = waterDaySchema.validate({ date });
 
-  // checking the correctness of the date and 29.02
   const testDate = new Date(date);
   if (
     testDate.toString() === 'Invalid Date' ||

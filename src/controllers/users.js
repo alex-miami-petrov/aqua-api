@@ -13,7 +13,7 @@ export const getUsersController = async (req, res) => {
   });
 };
 
-export const getCurrenttUserController = async (req, res) => {
+export const getCurrentUserController = async (req, res) => {
   const userId = req.user._id;
 
   const user = await userService.getUserById(userId);
@@ -28,32 +28,6 @@ export const getCurrenttUserController = async (req, res) => {
     data: user,
   });
 };
-
-// export const createUserController = async (req, res) => {
-//   const userData = { ...req.body, userId: req.user._id };
-//   const photo = req.file;
-
-//   let photoUrl;
-
-//   if (photo) {
-//     if (process.env.ENABLE_CLOUDINARY === 'true') {
-//       photoUrl = await saveFileToCloudinary(photo);
-//     } else {
-//       photoUrl = await saveFileToUploadDir(photo);
-//     }
-//   }
-
-//   const newUser = await userService.addUser({
-//     ...userData,
-//     photo: photoUrl,
-//   });
-
-//   res.status(201).json({
-//     status: 201,
-//     message: 'Successfully created a user!',
-//     data: newUser,
-//   });
-// };
 
 export const updateCurrentUserController = async (req, res, next) => {
   const userId = req.user._id;
@@ -97,14 +71,3 @@ export const updateCurrentUserController = async (req, res, next) => {
     next(error);
   }
 };
-
-// export const deleteUserController = async (req, res) => {
-//   const { customerId } = req.params;
-//   const contact = await userService.deleteContact(customerId, req.user._id);
-
-//   if (!contact) {
-//     throw new createHttpError.NotFound('User not found');
-//   }
-
-//   res.status(204).send();
-// };

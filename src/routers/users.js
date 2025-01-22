@@ -1,7 +1,7 @@
 import { Router } from 'express';
 import {
   getUsersController,
-  getCurrenttUserController,
+  getCurrentUserController,
   updateCurrentUserController,
 } from '../controllers/users.js';
 import { ctrlWrapper } from '../utils/ctrlWrapper.js';
@@ -16,15 +16,7 @@ const router = Router();
 router.get('/all', ctrlWrapper(getUsersController));
 router.use(authenticate);
 
-router.get('/current', ctrlWrapper(getCurrenttUserController));
-
-// router.post(
-//   '/',
-//   upload.single('photo'),
-//   bodyCleaner,
-//   validateBody(userSchema),
-//   ctrlWrapper(createUserController),
-// );
+router.get('/current', ctrlWrapper(getCurrentUserController));
 
 router.patch(
   '/current',

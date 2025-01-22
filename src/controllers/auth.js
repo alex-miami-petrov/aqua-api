@@ -129,6 +129,11 @@ export const confirmAuthCtrl = async (req, res, next) => {
   try {
     const payload = await validateIdToken(idToken);
 
+    const userPayload = {
+      ...payload,
+      photo: payload.picture,
+    };
+
     const session = await loginOrRegister(payload);
 
     res.cookie('refreshToken', session.refreshToken, {
@@ -150,6 +155,11 @@ export const confirmAuthCtrl = async (req, res, next) => {
       message: 'Login with Google successfully!',
       data: {
         accessToken: session.accessToken,
+        user: {
+          name: userPayload.name,
+          email: userPayload.email,
+          photo: userPayload.photo,
+        },
       },
     });
   } catch (error) {
@@ -160,34 +170,6 @@ export const confirmAuthCtrl = async (req, res, next) => {
     );
   }
 };
-
-// export const confirmAuthCtrl = async (req, res) => {
-//   const { code } = req.body;
-//   const ticket = await validateCode(code);
-//   const session = await loginOrRegister(ticket.payload);
-
-//   res.cookie('refreshToken', session.refreshToken, {
-//     httpOnly: true,
-//     secure: process.env.NODE_ENV === 'production',
-//     sameSite: 'strict',
-//     expires: new Date(Date.now() + ONE_DAY),
-//   });
-
-//   res.cookie('sessionId', session._id, {
-//     httpOnly: true,
-//     secure: process.env.NODE_ENV === 'production',
-//     sameSite: 'strict',
-//     expires: new Date(Date.now() + ONE_DAY),
-//   });
-
-//   res.status(200).json({
-//     status: 200,
-//     message: 'Login with Google successfully!',
-//     data: {
-//       accessToken: session.accessToken,
-//     },
-//   });
-// };
 
 // export const confirmAuthCtrl = async (req, res) => {
 //   const { code } = req.body;
