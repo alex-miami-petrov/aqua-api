@@ -29,7 +29,7 @@ export const loginUserCtrl = async (req, res) => {
 
   res.cookie('refreshToken', session.refreshToken, {
     httpOnly: true,
-    secure: process.env.NODE_ENV === 'production',
+    secure: false,
     sameSite: 'strict',
     expires: new Date(Date.now() + ONE_DAY),
   });
@@ -59,7 +59,7 @@ export const refreshSessionCtrl = async (req, res) => {
 
   res.cookie('refreshToken', session.refreshToken, {
     httpOnly: true,
-    secure: process.env.NODE_ENV === 'production',
+    secure: false,
     sameSite: 'Lax',
     expires: new Date(Date.now() + ONE_DAY),
   });
@@ -141,14 +141,14 @@ export const confirmAuthCtrl = async (req, res, next) => {
     // Збереження токенів у cookie
     res.cookie('refreshToken', session.refreshToken, {
       httpOnly: true,
-      secure: process.env.NODE_ENV === 'production',
+      secure: false,
       sameSite: 'strict',
       expires: new Date(Date.now() + ONE_DAY),
     });
 
     res.cookie('sessionId', session._id, {
       httpOnly: true,
-      secure: process.env.NODE_ENV === 'production',
+      secure: false,
       sameSite: 'strict',
       expires: new Date(Date.now() + ONE_DAY),
     });
